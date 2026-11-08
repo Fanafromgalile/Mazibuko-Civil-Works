@@ -643,6 +643,7 @@
         // When hosted outside Apps Script (e.g. Vercel), submissions go through /api/submit,
         // which forwards them to the Apps Script URL stored in the project's environment variables.
         const SUBMIT_ENDPOINT = "/api/submit";
+        const PRODUCTION_ORIGIN = "https://mazibuko-civil-works.vercel.app";
         const ERROR_MESSAGE = "Error submitting request. Please try again or WhatsApp us on +27 69 877 7757.";
 
         function showStatus(message, isError) {
@@ -669,11 +670,24 @@
                         .processFormSubmission(payload);
                 });
             }
-            return fetch(SUBMIT_ENDPOINT, {
+            const isProduction = window.location.origin === PRODUCTION_ORIGIN;
+            return postTo(SUBMIT_ENDPOINT, payload).catch(err => {
+                if (isProduction) throw err;
+                return postTo(PRODUCTION_ORIGIN + SUBMIT_ENDPOINT, payload);
+            });
+        }
+
+        // text/plain keeps this a "simple" request so no CORS preflight is needed.
+        function postTo(url, payload) {
+            return fetch(url, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(payload)
-            }).then(r => r.json());
+            }).then(async r => {
+                const data = await r.json().catch(() => null);
+                if (!data) throw new Error('Submission endpoint unavailable (' + r.status + ')');
+                return data;
+            });
         }
 
         function handleFormSubmit(e) {
