@@ -1,0 +1,195 @@
+/**
+ * Mazibuko Civil Works (MCW) - Backend Script
+ * Target Spreadsheet ID: 1b2ldt35HijbAdsroXUCcZoGLWDuctfwOugmCwMd2QFo
+ */
+
+const SPREADSHEET_ID = "1b2ldt35HijbAdsroXUCcZoGLWDuctfwOugmCwMd2QFo"; //
+const LOCK_WAIT_TIMEOUT = 10000; // 10 seconds
+
+/**
+ * Serves your HTML frontend file directly when opening the Web App URL
+ */
+function doGet(e) {
+  return HtmlService.createHtmlOutputFromFile('Index')
+    .setTitle('Mazibuko Civil Works (MCW) - Making things Possible')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
+}
+
+/**
+ * Handles form submissions securely from the frontend via google.script.run
+ */
+function processFormSubmission(data) {
+  const lock = LockService.getScriptLock();
+  
+  try {
+    if (!lock.tryLock(LOCK_WAIT_TIMEOUT)) {
+      return { status: 'error', message: 'Server busy. Please try again shortly.' };
+    }
+
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID); //
+    const timestamp = new Date();
+
+    // Default to 'quote' if type is not explicitly provided by the frontend
+    const submissionType = (data && data.type) ? data.type : 'quote';
+
+    if (submissionType === 'quote') {
+      let sheet = ss.getSheetByName('Quotes') || ss.insertSheet('Quotes');
+
+      // If sheet is empty or only has the old default header, setup correct headers
+      if (sheet.getLastRow() === 0 || sheet.getRange(1, 2).getValue() === 'Untitled Question') {
+        sheet.clear();
+        sheet.appendRow(['Timestamp', 'Full Name', 'Contact Info', 'Service Requested', 'Project Location', 'Project Details']);
+        sheet.getRange(1, 1, 1, 6).setFontWeight('bold');
+      }
+
+      sheet.appendRow([
+        timestamp,
+        data.fullName || '',
+        data.contactInfo || '',
+        data.service || '',
+        data.location || '',
+        data.details || ''
+      ]);
+
+      if (data.contactInfo && data.contactInfo.includes('@')) {
+        const clientName = escapeHtml(data.fullName || "Valued Client");
+        const emailBody = getEmailTemplate(
+          "Quote Request Received",
+          `Dear <strong>${clientName}</strong>,`,
+          `Thank you for contacting <strong>Mazibuko Civil Works (MCW)</strong>.<br><br>This is an automated confirmation that we have received your request. We will review your project details and respond as soon as possible.`,
+          `Need urgent assistance?`,
+          `Connect directly with us on WhatsApp at <strong>+27 69 877 7757</strong>.`,
+          `#487138`
+        );
+        sendMcwEmail(data.contactInfo, "MCW Quote Request Confirmation", emailBody);
+      }
+
+      return { status: 'success', message: 'Quote recorded successfully.' };
+
+    } else if (submissionType === 'faq') {
+      let sheet = ss.getSheetByName('FAQ') || ss.insertSheet('FAQ');
+
+      if (sheet.getLastRow() === 0) {
+        sheet.appendRow(['Timestamp', 'Contact Info', 'Question Topic', 'Question Text']);
+        sheet.getRange(1, 1, 1, 4).setFontWeight('bold');
+      }
+
+      sheet.appendRow([
+        timestamp,
+        data.contactInfo || '',
+        data.topic || '',
+        data.question || ''
+      ]);
+
+      if (data.contactInfo && data.contactInfo.includes('@')) {
+        const topicSubject = data.topic ? ` regarding <strong>${escapeHtml(data.topic)}</strong>` : '';
+        const emailBody = getEmailTemplate(
+          "Inquiry Received",
+          `Dear Valued Client,`,
+          `Thank you for reaching out to <strong>Mazibuko Civil Works (MCW)</strong> with your inquiry${topicSubject}.<br><br>Our team is reviewing your question and will reply shortly.`,
+          `Quick Assistance`,
+          `Feel free to reach us on WhatsApp at <strong>+27 69 877 7757</strong>.`,
+          `#B5882D`
+        );
+        sendMcwEmail(data.contactInfo, "MCW Inquiry Confirmation", emailBody);
+      }
+
+      return { status: 'success', message: 'Inquiry recorded successfully.' };
+
+    } else {
+      return { status: 'error', message: 'Invalid payload type.' };
+    }
+
+  } catch (error) {
+    return { status: 'error', message: error.toString() };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+/**
+ * Helper: Sends branded MCW emails
+ */
+function sendMcwEmail(recipient, subject, htmlBody) {
+  GmailApp.sendEmail(recipient, subject, "", {
+    name: "Mazibuko Civil Works",
+    htmlBody: htmlBody
+  });
+}
+
+/**
+ * Helper: Reusable HTML Email Template Builder
+ */
+function getEmailTemplate(title, salutation, bodyText, alertTitle, alertText, alertBorderColor) {
+  return `
+    <div style="background-color: #f4f6f3; padding: 20px; font-family: Arial, sans-serif;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; border: 1px solid #e0e0e0; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+        <div style="background-color: #487138; padding: 25px 20px; text-align: center; border-bottom: 4px solid #B5882D;">
+          <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+            <tr>
+              <td style="font-family: Arial, sans-serif; font-size: 28px; font-weight: 900; color: #ffffff; letter-spacing: 1px;">
+                MCW <span style="color: #B5882D;">&gt;&gt;</span>
+              </td>
+              <td style="padding-left: 15px; border-left: 2px solid #B5882D; text-align: left;">
+                <div style="font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; color: #ffffff; text-transform: uppercase; letter-spacing: 0.5px;">MAZIBUKO CIVIL WORKS</div>
+                <div style="font-family: Arial, sans-serif; font-size: 11px; font-style: italic; color: #e0e8dc;">Making things Possible</div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        
+        <div style="padding: 30px; color: #333333; line-height: 1.6;">
+          <h2 style="color: #487138; margin-top: 0;">${title}</h2>
+          <p>${salutation}</p>
+          <p>${bodyText}</p>
+          
+          <div style="background-color: #f4f7f2; border-left: 4px solid ${alertBorderColor}; padding: 15px; margin: 20px 0; border-radius: 0 4px 4px 0;">
+            <p style="margin: 0; font-size: 13px; color: ${alertBorderColor}; font-weight: bold;">${alertTitle}</p>
+            <p style="margin: 5px 0 0 0; font-size: 13px;">${alertText}</p>
+          </div>
+
+          <p>Kind regards,</p>
+          <p style="margin: 0; font-weight: bold; color: #487138;">Team MCW</p>
+        </div>
+
+        <div style="background-color: #f8f9f7; padding: 20px; text-align: center; border-top: 1px solid #e2e8df; font-size: 12px; color: #555555;">
+          <p style="margin: 0 0 5px 0; font-weight: bold; color: #487138;">Mazibuko Civil Works (MCW)</p>
+          <p style="margin: 0 0 5px 0;">Phone / WhatsApp: +27 69 877 7757 | Email: mcw.services2024@outlook.com</p>
+          <p style="margin: 0; color: #888888; font-style: italic;">Making things Possible</p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * JSON endpoint so the site can submit when hosted outside Apps Script (e.g. on Vercel).
+ * The frontend sends a text/plain body to avoid a CORS preflight, which Apps Script cannot answer.
+ */
+function doPost(e) {
+  let data = {};
+  try {
+    data = JSON.parse((e && e.postData && e.postData.contents) || '{}');
+  } catch (err) {
+    return jsonResponse({ status: 'error', message: 'Invalid JSON payload.' });
+  }
+  return jsonResponse(processFormSubmission(data));
+}
+
+function jsonResponse(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * Helper: Escapes user input before inserting it into HTML emails
+ */
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
