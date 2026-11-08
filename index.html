@@ -493,17 +493,24 @@
                             <form id="unifiedForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
                                 <input type="hidden" id="submissionType" value="quote">
 
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="fullName" class="block text-xs font-bold text-slate-700 uppercase mb-1">Full Name *</label>
+                                        <input type="text" id="fullName" required autocomplete="name" placeholder="e.g. John Doe" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
+                                    </div>
+                                    <div>
+                                        <label for="email" class="block text-xs font-bold text-slate-700 uppercase mb-1">Email Address *</label>
+                                        <input type="email" id="email" required autocomplete="email" placeholder="email@example.com" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
+                                    </div>
+                                </div>
+
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Contact Info (Phone or Email) *</label>
-                                    <input type="text" id="contactInfo" required placeholder="082 123 4567 or email@example.com" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
+                                    <label for="contactInfo" class="block text-xs font-bold text-slate-700 uppercase mb-1">Phone Number</label>
+                                    <input type="tel" id="contactInfo" autocomplete="tel" placeholder="082 123 4567" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
                                 </div>
 
                                 <div id="quoteFields" class="space-y-4">
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div>
-                                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Full Name</label>
-                                            <input type="text" id="fullName" placeholder="e.g. John Doe" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
-                                        </div>
+                                    <div class="grid grid-cols-1 gap-4">
                                         <div>
                                             <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Location / Suburb</label>
                                             <input type="text" id="location" placeholder="e.g. Soweto" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
@@ -633,76 +640,77 @@
             }
         }
 
-        // Paste your deployed Apps Script Web App URL (ending in /exec) here.
-        const APPS_SCRIPT_URL = "";
+        // When hosted outside Apps Script (e.g. Vercel), submissions go through /api/submit,
+        // which forwards them to the Apps Script URL stored in the project's environment variables.
+        const SUBMIT_ENDPOINT = "/api/submit";
+        const ERROR_MESSAGE = "Error submitting request. Please try again or WhatsApp us on +27 69 877 7757.";
+
+        function showStatus(message, isError) {
+            const alert = document.getElementById('statusAlert');
+            alert.textContent = message;
+            alert.className = isError
+                ? "mb-4 p-3 bg-red-50 border border-red-400 text-red-800 text-xs rounded-xl"
+                : "mb-4 p-3 bg-mcw-greenlight border border-mcw-green text-mcw-dark text-xs rounded-xl";
+            alert.setAttribute('role', isError ? 'alert' : 'status');
+        }
+
+        function clearForm() {
+            const type = document.getElementById('submissionType').value;
+            document.getElementById('unifiedForm').reset();
+            switchFormType(type);
+        }
+
+        function sendSubmission(payload) {
+            if (typeof google !== 'undefined' && google.script && google.script.run) {
+                return new Promise((resolve, reject) => {
+                    google.script.run
+                        .withSuccessHandler(resolve)
+                        .withFailureHandler(reject)
+                        .processFormSubmission(payload);
+                });
+            }
+            return fetch(SUBMIT_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(r => r.json());
+        }
 
         function handleFormSubmit(e) {
             e.preventDefault();
             const submitBtn = document.getElementById('submitBtn');
             const spinner = document.getElementById('submitSpinner');
-            const alert = document.getElementById('statusAlert');
+            const type = document.getElementById('submissionType').value;
+            const details = document.getElementById('details').value.trim();
+
+            const payload = {
+                type: type,
+                fullName: document.getElementById('fullName').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                contactInfo: document.getElementById('contactInfo').value.trim(),
+                location: type === 'quote' ? document.getElementById('location').value.trim() : '',
+                service: type === 'quote' ? document.getElementById('serviceSelect').value : '',
+                details: details,
+                question: details
+            };
 
             submitBtn.disabled = true;
             spinner.classList.remove('hidden');
 
-            const payload = {
-                type: document.getElementById('submissionType').value,
-                contactInfo: document.getElementById('contactInfo').value,
-                fullName: document.getElementById('fullName').value,
-                location: document.getElementById('location').value,
-                service: document.getElementById('serviceSelect').value,
-                details: document.getElementById('details').value,
-                question: document.getElementById('details').value
-            };
-
-            if (typeof google !== 'undefined' && google.script && google.script.run) {
-                google.script.run
-                    .withSuccessHandler(res => {
-                        submitBtn.disabled = false;
-                        spinner.classList.add('hidden');
-                        alert.classList.remove('hidden');
-                        alert.textContent = res.message || "Submitted successfully!";
-                        document.getElementById('unifiedForm').reset();
-                    })
-                    .withFailureHandler(err => {
-                        submitBtn.disabled = false;
-                        spinner.classList.add('hidden');
-                        alert.classList.remove('hidden');
-                        alert.textContent = "Error submitting request. Please try again or WhatsApp us.";
-                    })
-                    .processFormSubmission(payload);
-            } else if (APPS_SCRIPT_URL) {
-                fetch(APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(payload)
+            sendSubmission(payload)
+                .then(res => {
+                    if (res && res.status === 'success') {
+                        showStatus("Thank you! Your " + (type === 'quote' ? "quote request" : "inquiry") + " has been received. A confirmation email has been sent to " + payload.email + ".", false);
+                        clearForm();
+                    } else {
+                        showStatus((res && res.message) || ERROR_MESSAGE, true);
+                    }
                 })
-                    .then(r => r.json())
-                    .then(res => {
-                        alert.classList.remove('hidden');
-                        if (res.status === 'success') {
-                            alert.textContent = res.message || "Submitted successfully!";
-                            document.getElementById('unifiedForm').reset();
-                        } else {
-                            alert.textContent = res.message || "Error submitting request. Please try again or WhatsApp us.";
-                        }
-                    })
-                    .catch(() => {
-                        alert.classList.remove('hidden');
-                        alert.textContent = "Error submitting request. Please try again or WhatsApp us.";
-                    })
-                    .finally(() => {
-                        submitBtn.disabled = false;
-                        spinner.classList.add('hidden');
-                    });
-            } else {
-                setTimeout(() => {
+                .catch(() => showStatus(ERROR_MESSAGE, true))
+                .finally(() => {
                     submitBtn.disabled = false;
                     spinner.classList.add('hidden');
-                    alert.classList.remove('hidden');
-                    alert.textContent = "Form submission simulated (backend URL not configured).";
-                }, 1000);
-            }
+                });
         }
     </script>
 </body>

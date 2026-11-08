@@ -30,8 +30,14 @@ function processFormSubmission(data) {
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID); //
     const timestamp = new Date();
 
+    data = data || {};
     // Default to 'quote' if type is not explicitly provided by the frontend
-    const submissionType = (data && data.type) ? data.type : 'quote';
+    const submissionType = data.type ? data.type : 'quote';
+    const clientEmail = getClientEmail(data);
+
+    if (!clientEmail) {
+      return { status: 'error', message: 'Please provide a valid email address.' };
+    }
 
     if (submissionType === 'quote') {
       let sheet = ss.getSheetByName('Quotes') || ss.insertSheet('Quotes');
@@ -39,9 +45,10 @@ function processFormSubmission(data) {
       // If sheet is empty or only has the old default header, setup correct headers
       if (sheet.getLastRow() === 0 || sheet.getRange(1, 2).getValue() === 'Untitled Question') {
         sheet.clear();
-        sheet.appendRow(['Timestamp', 'Full Name', 'Contact Info', 'Service Requested', 'Project Location', 'Project Details']);
-        sheet.getRange(1, 1, 1, 6).setFontWeight('bold');
+        sheet.appendRow(['Timestamp', 'Full Name', 'Contact Info', 'Service Requested', 'Project Location', 'Project Details', 'Email']);
+        sheet.getRange(1, 1, 1, 7).setFontWeight('bold');
       }
+      ensureHeader(sheet, 7, 'Email');
 
       sheet.appendRow([
         timestamp,
@@ -49,10 +56,11 @@ function processFormSubmission(data) {
         data.contactInfo || '',
         data.service || '',
         data.location || '',
-        data.details || ''
+        data.details || '',
+        clientEmail
       ]);
 
-      if (data.contactInfo && data.contactInfo.includes('@')) {
+      {
         const clientName = escapeHtml(data.fullName || "Valued Client");
         const emailBody = getEmailTemplate(
           "Quote Request Received",
@@ -62,7 +70,7 @@ function processFormSubmission(data) {
           `Connect directly with us on WhatsApp at <strong>+27 69 877 7757</strong>.`,
           `#487138`
         );
-        sendMcwEmail(data.contactInfo, "MCW Quote Request Confirmation", emailBody);
+        sendMcwEmail(clientEmail, "MCW Quote Request Confirmation", emailBody);
       }
 
       return { status: 'success', message: 'Quote recorded successfully.' };
@@ -71,28 +79,32 @@ function processFormSubmission(data) {
       let sheet = ss.getSheetByName('FAQ') || ss.insertSheet('FAQ');
 
       if (sheet.getLastRow() === 0) {
-        sheet.appendRow(['Timestamp', 'Contact Info', 'Question Topic', 'Question Text']);
-        sheet.getRange(1, 1, 1, 4).setFontWeight('bold');
+        sheet.appendRow(['Timestamp', 'Contact Info', 'Question Topic', 'Question Text', 'Email', 'Full Name']);
+        sheet.getRange(1, 1, 1, 6).setFontWeight('bold');
       }
+      ensureHeader(sheet, 5, 'Email');
+      ensureHeader(sheet, 6, 'Full Name');
 
       sheet.appendRow([
         timestamp,
         data.contactInfo || '',
         data.topic || '',
-        data.question || ''
+        data.question || '',
+        clientEmail,
+        data.fullName || ''
       ]);
 
-      if (data.contactInfo && data.contactInfo.includes('@')) {
+      {
         const topicSubject = data.topic ? ` regarding <strong>${escapeHtml(data.topic)}</strong>` : '';
         const emailBody = getEmailTemplate(
           "Inquiry Received",
-          `Dear Valued Client,`,
+          `Dear <strong>${escapeHtml(data.fullName || "Valued Client")}</strong>,`,
           `Thank you for reaching out to <strong>Mazibuko Civil Works (MCW)</strong> with your inquiry${topicSubject}.<br><br>Our team is reviewing your question and will reply shortly.`,
           `Quick Assistance`,
           `Feel free to reach us on WhatsApp at <strong>+27 69 877 7757</strong>.`,
           `#B5882D`
         );
-        sendMcwEmail(data.contactInfo, "MCW Inquiry Confirmation", emailBody);
+        sendMcwEmail(clientEmail, "MCW Inquiry Confirmation", emailBody);
       }
 
       return { status: 'success', message: 'Inquiry recorded successfully.' };
@@ -180,6 +192,29 @@ function doPost(e) {
 function jsonResponse(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * Helper: Returns the client's email from the dedicated field, or from Contact Info if it holds an email
+ */
+function getClientEmail(data) {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const candidates = [data.email, data.contactInfo];
+  for (let i = 0; i < candidates.length; i++) {
+    const value = String(candidates[i] || '').trim();
+    if (emailPattern.test(value)) return value;
+  }
+  return '';
+}
+
+/**
+ * Helper: Adds a header to an existing sheet created before that column existed
+ */
+function ensureHeader(sheet, column, title) {
+  const cell = sheet.getRange(1, column);
+  if (!cell.getValue()) {
+    cell.setValue(title).setFontWeight('bold');
+  }
 }
 
 /**
