@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mazibuko Civil Works (MCW) - Essential Property & Site Services</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
@@ -39,7 +36,7 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         h1, h2, h3, h4, .font-display { font-family: 'Outfit', sans-serif; }
-        
+
         .tab-view { display: none; }
         .tab-view.active { display: block; }
 
@@ -56,7 +53,6 @@
             background-position: center;
         }
 
-        /* Smooth popup hover animation for service cards & options */
         .pop-on-hover {
             transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease;
         }
@@ -66,7 +62,6 @@
             border-color: #487138;
         }
 
-        /* Blurry preview style for coming soon phases */
         .roadmap-blur {
             filter: blur(0.4px);
             opacity: 0.85;
@@ -81,7 +76,6 @@
 </head>
 <body class="bg-mcw-bglight text-slate-800 antialiased flex flex-col min-h-screen pb-16 lg:pb-0">
 
-    <!-- TOP INFORMATION STRIP -->
     <div class="bg-mcw-dark text-slate-300 text-xs py-2.5 px-4 border-b border-mcw-green/35">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <span class="flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-mcw-gold"></i> Soweto, Gauteng &amp; Surrounding Areas</span>
@@ -96,12 +90,9 @@
         </div>
     </div>
 
-    <!-- SIMPLE NAVIGATION HEADER -->
     <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                
-                <!-- BRAND LOGO -->
                 <button onclick="switchTab('home')" class="flex items-center gap-3 text-left focus:outline-none group">
                     <span class="font-display font-black text-3xl text-mcw-green tracking-tight group-hover:scale-105 transition-transform">MCW</span>
                     <div class="flex flex-col border-l-2 border-slate-200 pl-3">
@@ -110,7 +101,6 @@
                     </div>
                 </button>
 
-                <!-- DESKTOP NAVIGATION -->
                 <nav class="hidden md:flex space-x-6 text-sm font-medium">
                     <button id="nav-home" onclick="switchTab('home')" class="nav-btn active py-7 transition-colors">Home &amp; Services</button>
                     <button id="nav-about" onclick="switchTab('about')" class="nav-btn py-7 transition-colors">About &amp; Roadmap</button>
@@ -118,8 +108,7 @@
                     <button id="nav-contact" onclick="switchTab('contact')" class="nav-btn py-7 transition-colors">Contact &amp; Quotes</button>
                 </nav>
 
-                <!-- TOP CTA -->
-                <button onclick="switchTab('contact')" class="hidden sm:inline-flex bg-mcw-green hover:bg-mcw-greenhover text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-all items-center gap-2 shadow-sm hover:shadow">
+                <button onclick="switchTab('contact')" class="hidden sm:inline-flex bg-mcw-green hover:bg-mcw-greenhover text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-all items-center gap-2">
                     <span>Get Free Quote</span>
                     <i class="fa-solid fa-arrow-right text-xs"></i>
                 </button>
@@ -127,12 +116,9 @@
         </div>
     </header>
 
-    <!-- MAIN CONTENT CONTAINER -->
     <main class="flex-grow">
 
-        <!-- ================= PAGE 1: HOME & SERVICES ================= -->
         <div id="view-home" class="tab-view active">
-            <!-- HERO SECTION -->
             <section class="hero-bg py-16 lg:py-24 text-white">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center lg:text-left">
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
@@ -147,7 +133,7 @@
                                 Mazibuko Civil Works (Pty) Ltd offers quality lawn mowing, facility cleaning, property repairs, and civil labor support for homes and businesses.
                             </p>
                             <div class="flex flex-col sm:flex-row gap-4 pt-2 justify-center lg:justify-start">
-                                <button onclick="switchTab('contact')" class="bg-mcw-green hover:bg-mcw-greenhover text-white font-bold px-7 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+                                <button onclick="switchTab('contact')" class="bg-mcw-green hover:bg-mcw-greenhover text-white font-bold px-7 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all">
                                     <span>Request a Quote Now</span>
                                     <i class="fa-solid fa-paper-plane text-xs"></i>
                                 </button>
@@ -157,7 +143,6 @@
                             </div>
                         </div>
 
-                        <!-- HIGHLIGHT BOX -->
                         <div class="lg:col-span-5 bg-mcw-dark/95 p-6 sm:p-8 rounded-3xl border border-slate-700 shadow-2xl text-left space-y-4 pop-on-hover">
                             <h3 class="font-display font-bold text-base sm:text-lg text-white border-b border-slate-700 pb-3 flex items-center gap-2">
                                 <i class="fa-solid fa-circle-check text-mcw-gold"></i> Fast &amp; Dependable Service
@@ -169,7 +154,7 @@
                                 <li class="flex items-center gap-3"><i class="fa-solid fa-check text-mcw-green"></i> Site Labor &amp; Rubble Removal</li>
                             </ul>
                             <div class="pt-2">
-                                <a href="https://wa.me/27698777757" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-all shadow-md">
+                                <a href="https://wa.me/27698777757" target="_blank" class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-all">
                                     <i class="fa-brands fa-whatsapp mr-1"></i> WhatsApp Us: +27 69 877 7757
                                 </a>
                             </div>
@@ -178,7 +163,6 @@
                 </div>
             </section>
 
-            <!-- OUR SERVICES GRID (WITH HOVER EFFECTS) -->
             <section class="py-16 bg-white">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center max-w-2xl mx-auto mb-12">
@@ -188,7 +172,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <!-- SERVICE 1 -->
                         <div class="bg-mcw-bglight p-6 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-sm pop-on-hover cursor-pointer" onclick="switchTab('contact')">
                             <div>
                                 <div class="w-12 h-12 bg-mcw-greenlight text-mcw-green rounded-xl flex items-center justify-center text-xl mb-4 transition-transform group-hover:scale-110">
@@ -200,7 +183,6 @@
                             <span class="text-xs font-bold text-mcw-green flex items-center gap-1 group-hover:translate-x-1 transition-transform">Request Service <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
                         </div>
 
-                        <!-- SERVICE 2 -->
                         <div class="bg-mcw-bglight p-6 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-sm pop-on-hover cursor-pointer" onclick="switchTab('contact')">
                             <div>
                                 <div class="w-12 h-12 bg-amber-50 text-mcw-gold rounded-xl flex items-center justify-center text-xl mb-4">
@@ -212,7 +194,6 @@
                             <span class="text-xs font-bold text-mcw-green flex items-center gap-1">Request Service <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
                         </div>
 
-                        <!-- SERVICE 3 -->
                         <div class="bg-mcw-bglight p-6 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-sm pop-on-hover cursor-pointer" onclick="switchTab('contact')">
                             <div>
                                 <div class="w-12 h-12 bg-mcw-greenlight text-mcw-green rounded-xl flex items-center justify-center text-xl mb-4">
@@ -224,7 +205,6 @@
                             <span class="text-xs font-bold text-mcw-green flex items-center gap-1">Request Service <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
                         </div>
 
-                        <!-- SERVICE 4 -->
                         <div class="bg-mcw-bglight p-6 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-sm pop-on-hover cursor-pointer" onclick="switchTab('contact')">
                             <div>
                                 <div class="w-12 h-12 bg-slate-200 text-slate-800 rounded-xl flex items-center justify-center text-xl mb-4">
@@ -240,12 +220,9 @@
             </section>
         </div>
 
-        <!-- ================= PAGE 2: ABOUT US & GROWTH ROADMAP ================= -->
         <div id="view-about" class="tab-view">
             <section class="py-16 bg-white">
                 <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-                    
-                    <!-- HEADER -->
                     <div class="text-center">
                         <span class="text-xs font-bold uppercase tracking-widest text-mcw-green">Company Profile</span>
                         <h2 class="text-3xl sm:text-4xl font-display font-extrabold text-slate-900 mt-1">About Mazibuko Civil Works</h2>
@@ -253,17 +230,16 @@
                         <p class="text-slate-600 italic">"Making things Possible"</p>
                     </div>
 
-                    <!-- WHO WE ARE & MISSION / VISION -->
                     <div class="space-y-6">
                         <div class="bg-mcw-bglight p-6 sm:p-8 rounded-3xl border border-slate-200 text-slate-700 leading-relaxed text-xs sm:text-sm space-y-4 shadow-sm pop-on-hover">
                             <h3 class="text-xl font-display font-bold text-slate-900 flex items-center gap-2">
                                 <i class="fa-solid fa-building text-mcw-green"></i> Who We Are
                             </h3>
                             <p>
-                                <strong>Mazibuko Civil Works (MCW)</strong> is a proudly South African, registered company established with a clear vision: to deliver reliable, affordable, and professional services across property maintenance, cleaning, and civil support sectors.
+                                <strong>Mazibuko Civil Works (MCW)</strong> is a proudly South African, registered company established with a clear vision: to deliver reliable, affordable, and professional services for property upkeep, civil support, and site-based operations.
                             </p>
                             <p>
-                                We help residential, commercial, and business clients maintain clean, safe, and functional environments while building the track record and capacity needed for larger infrastructure and civil engineering projects down the line.
+                                We help residential, commercial, and business clients maintain clean, safe, and functional environments while building the track record and capacity needed for larger projects and strategic partnerships.
                             </p>
                         </div>
 
@@ -274,7 +250,7 @@
                                 </div>
                                 <h3 class="text-lg font-display font-bold text-white">Our Vision</h3>
                                 <p class="text-slate-300 text-xs leading-relaxed">
-                                    To grow from delivering exceptional property maintenance services today into a reputable civil works, infrastructure development, and mining support enterprise across South Africa.
+                                    To grow from delivering exceptional property maintenance services today into a reputable civil works, infrastructure development, and mining support enterprise that serves South Africa with pride and professionalism.
                                 </p>
                             </div>
 
@@ -284,13 +260,12 @@
                                 </div>
                                 <h3 class="text-lg font-display font-bold text-white">Our Mission</h3>
                                 <p class="text-slate-300 text-xs leading-relaxed">
-                                    To provide dependable, high-quality, and transparent solutions for our clients while fostering community upliftment, local job creation, and long-term business sustainability.
+                                    To provide dependable, high-quality, and transparent solutions for our clients while fostering community upliftment, local job creation, and long-term business development rooted in integrity.
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- CORE VALUES & PHILOSOPHY -->
                     <div class="bg-mcw-bglight p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
                         <div class="text-center max-w-xl mx-auto">
                             <span class="text-xs font-bold uppercase tracking-widest text-mcw-gold">Our Principles</span>
@@ -325,7 +300,6 @@
                         </div>
                     </div>
 
-                    <!-- GROWTH ROADMAP -->
                     <div class="space-y-6">
                         <div class="text-center max-w-xl mx-auto">
                             <span class="text-xs font-bold uppercase tracking-widest text-mcw-gold">Future Expansion</span>
@@ -334,7 +308,6 @@
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <!-- PHASE 1: ACTIVE -->
                             <div class="bg-mcw-dark text-white p-6 sm:p-8 rounded-3xl border border-mcw-green shadow-xl flex flex-col justify-between pop-on-hover">
                                 <div class="space-y-3">
                                     <span class="inline-block bg-mcw-green text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
@@ -350,7 +323,6 @@
                                 </div>
                             </div>
 
-                            <!-- PHASE 2: COMING SOON & BLURRY -->
                             <div class="bg-mcw-dark/80 text-white p-6 sm:p-8 rounded-3xl border border-slate-700 shadow-lg flex flex-col justify-between roadmap-blur">
                                 <div class="space-y-3">
                                     <span class="inline-block bg-amber-500/20 text-mcw-gold border border-mcw-gold/40 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
@@ -366,7 +338,6 @@
                                 </div>
                             </div>
 
-                            <!-- PHASE 3: COMING SOON & BLURRY -->
                             <div class="bg-mcw-dark/80 text-white p-6 sm:p-8 rounded-3xl border border-slate-700 shadow-lg flex flex-col justify-between roadmap-blur">
                                 <div class="space-y-3">
                                     <span class="inline-block bg-slate-800 text-slate-300 border border-slate-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
@@ -383,12 +354,10 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </section>
         </div>
 
-        <!-- ================= PAGE 3: PRICE ESTIMATOR ================= -->
         <div id="view-estimator" class="tab-view">
             <section class="py-16 bg-white">
                 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -441,18 +410,15 @@
             </section>
         </div>
 
-        <!-- ================= PAGE 4: CONTACT & QUOTE FORM ================= -->
         <div id="view-contact" class="tab-view">
             <section class="py-16 bg-mcw-bglight">
                 <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-200 grid grid-cols-1 lg:grid-cols-12">
-                        
-                        <!-- LEFT DIRECT DETAILS -->
                         <div class="lg:col-span-5 bg-mcw-dark text-white p-8 flex flex-col justify-between">
                             <div class="space-y-6">
                                 <h2 class="text-2xl font-display font-bold text-white">Get In Touch</h2>
                                 <p class="text-xs text-slate-300 leading-relaxed">Fill out the form or reach out directly for immediate assistance or site bookings.</p>
-                                
+
                                 <div class="space-y-4 text-xs">
                                     <div class="flex items-center gap-3">
                                         <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-mcw-gold shrink-0">
@@ -475,20 +441,19 @@
                                 </div>
                             </div>
                             <div class="pt-8 border-t border-slate-800 mt-6">
-                                <a href="https://wa.me/27698777757" target="_blank" class="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-3.5 rounded-xl transition-all shadow-md">
+                                <a href="https://wa.me/27698777757" target="_blank" class="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-3 rounded-xl transition-all">
                                     <i class="fa-brands fa-whatsapp text-sm"></i> Chat Directly on WhatsApp
                                 </a>
                             </div>
                         </div>
 
-                        <!-- RIGHT UNIFIED FORM -->
                         <div class="lg:col-span-7 p-6 sm:p-8">
                             <div class="flex border-b border-slate-200 mb-6 pb-2">
                                 <button type="button" id="toggleQuoteBtn" onclick="switchFormType('quote')" class="text-xs font-bold px-4 py-2 text-mcw-green border-b-2 border-mcw-green transition-colors">Request a Quote</button>
                                 <button type="button" id="toggleFaqBtn" onclick="switchFormType('faq')" class="text-xs font-bold px-4 py-2 text-slate-500 transition-colors">General Inquiry</button>
                             </div>
 
-                            <div id="statusAlert" class="hidden mb-4 p-3 bg-mcw-greenlight border border-mcw-green text-mcw-dark text-xs rounded-xl"></div>
+                            <div id="statusAlert" class="hidden mb-4 p-3 border text-mcw-dark text-xs rounded-xl"></div>
 
                             <form id="unifiedForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
                                 <input type="hidden" id="submissionType" value="quote">
@@ -525,7 +490,7 @@
                                     <textarea id="details" rows="4" placeholder="Describe what you need..." class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium"></textarea>
                                 </div>
 
-                                <button type="submit" id="submitBtn" class="w-full bg-mcw-green hover:bg-mcw-greenhover text-white font-bold py-3.5 rounded-xl text-xs transition-all flex items-center justify-center gap-2 shadow-md">
+                                <button type="submit" id="submitBtn" class="w-full bg-mcw-green hover:bg-mcw-greenhover text-white font-bold py-3.5 rounded-xl text-xs transition-all flex items-center justify-center gap-2">
                                     <span id="submitBtnText">Submit Request</span>
                                     <i id="submitSpinner" class="fa-solid fa-spinner fa-spin hidden"></i>
                                 </button>
@@ -538,7 +503,6 @@
 
     </main>
 
-    <!-- MOBILE BOTTOM NAVIGATION -->
     <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2.5 px-2 flex justify-around text-center text-[10px] font-medium shadow-2xl">
         <button onclick="switchTab('home')" id="mob-home" class="text-mcw-green font-bold flex flex-col items-center gap-0.5">
             <i class="fa-solid fa-house text-base"></i> Home
@@ -554,7 +518,6 @@
         </button>
     </nav>
 
-    <!-- FOOTER -->
     <footer class="bg-mcw-dark text-slate-400 text-xs py-8 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
             <p>&copy; Mazibuko Civil Works (Pty) Ltd. All rights reserved.</p>
@@ -562,25 +525,21 @@
         </div>
     </footer>
 
-    <!-- INTERACTIVE SCRIPT -->
     <script>
         function switchTab(tabId) {
             document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-            
-            document.getElementById('view-' + tabId).classList.add('active');
+
+            const view = document.getElementById('view-' + tabId);
+            if (view) view.classList.add('active');
+
             const navBtn = document.getElementById('nav-' + tabId);
             if (navBtn) navBtn.classList.add('active');
 
-            // Mobile nav highlight
             ['home', 'about', 'estimator', 'contact'].forEach(id => {
                 const mobEl = document.getElementById('mob-' + id);
                 if (mobEl) {
-                    if (id === tabId) {
-                        mobEl.className = 'text-mcw-green font-bold flex flex-col items-center gap-0.5';
-                    } else {
-                        mobEl.className = 'text-slate-500 flex flex-col items-center gap-0.5';
-                    }
+                    mobEl.className = id === tabId ? 'text-mcw-green font-bold flex flex-col items-center gap-0.5' : 'text-slate-500 flex flex-col items-center gap-0.5';
                 }
             });
 
@@ -602,7 +561,7 @@
             else if (size === 'large') sizeMult = 1.9;
             else if (size === 'commercial') sizeMult = 3.0;
 
-            let disc = freq === 'biweekly' ? 0.90 : freq === 'monthly' ? 0.85 : 1.0;
+            const disc = freq === 'biweekly' ? 0.90 : freq === 'monthly' ? 0.85 : 1.0;
             const price = Math.round(base * sizeMult * disc);
 
             document.getElementById('estPriceDisplay').textContent = 'R ' + price;
@@ -610,7 +569,10 @@
 
         function applyEstimateToForm() {
             const price = document.getElementById('estPriceDisplay').textContent;
-            document.getElementById('details').value = "Estimated Price: " + price + "\n" + document.getElementById('details').value;
+            const details = document.getElementById('details');
+            if (details) {
+                details.value = 'Estimated Price: ' + price + '\n' + (details.value || '');
+            }
             switchTab('contact');
         }
 
@@ -619,62 +581,106 @@
             const quoteFields = document.getElementById('quoteFields');
             const toggleQuoteBtn = document.getElementById('toggleQuoteBtn');
             const toggleFaqBtn = document.getElementById('toggleFaqBtn');
+            const detailsLabel = document.getElementById('detailsLabel');
+            const details = document.getElementById('details');
 
             if (type === 'quote') {
                 quoteFields.classList.remove('hidden');
-                toggleQuoteBtn.className = "text-xs font-bold px-4 py-2 text-mcw-green border-b-2 border-mcw-green transition-colors";
-                toggleFaqBtn.className = "text-xs font-bold px-4 py-2 text-slate-500 transition-colors";
-                document.getElementById('submitBtnText').textContent = "Submit Quote Request";
+                toggleQuoteBtn.className = 'text-xs font-bold px-4 py-2 text-mcw-green border-b-2 border-mcw-green transition-colors';
+                toggleFaqBtn.className = 'text-xs font-bold px-4 py-2 text-slate-500 transition-colors';
+                document.getElementById('submitBtnText').textContent = 'Submit Quote Request';
+                detailsLabel.textContent = 'Project Details / Message';
+                details.placeholder = 'Describe what you need...';
             } else {
                 quoteFields.classList.add('hidden');
-                toggleFaqBtn.className = "text-xs font-bold px-4 py-2 text-mcw-green border-b-2 border-mcw-green transition-colors";
-                toggleQuoteBtn.className = "text-xs font-bold px-4 py-2 text-slate-500 transition-colors";
-                document.getElementById('submitBtnText').textContent = "Submit Inquiry";
+                toggleFaqBtn.className = 'text-xs font-bold px-4 py-2 text-mcw-green border-b-2 border-mcw-green transition-colors';
+                toggleQuoteBtn.className = 'text-xs font-bold px-4 py-2 text-slate-500 transition-colors';
+                document.getElementById('submitBtnText').textContent = 'Submit Inquiry';
+                detailsLabel.textContent = 'Your Question';
+                details.placeholder = 'Ask your question here...';
             }
+        }
+
+        function readFormPayload() {
+            const submissionType = document.getElementById('submissionType').value;
+            const contactInfo = document.getElementById('contactInfo').value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const normalizedEmail = emailPattern.test(contactInfo) ? contactInfo : '';
+            const detailsValue = document.getElementById('details').value.trim();
+
+            return {
+                type: submissionType,
+                contactInfo,
+                email: normalizedEmail,
+                fullName: document.getElementById('fullName').value.trim(),
+                location: document.getElementById('location').value.trim(),
+                service: document.getElementById('serviceSelect').value,
+                details: detailsValue,
+                question: detailsValue,
+                topic: detailsValue
+            };
+        }
+
+        function showStatus(message, variant) {
+            const alert = document.getElementById('statusAlert');
+            alert.classList.remove('hidden');
+            alert.classList.remove('bg-mcw-greenlight', 'border-mcw-green', 'bg-red-50', 'border-red-200', 'text-red-700');
+            alert.classList.add(variant === 'error' ? 'bg-red-50 border-red-200 text-red-700' : 'bg-mcw-greenlight border-mcw-green');
+            alert.textContent = message;
         }
 
         function handleFormSubmit(e) {
             e.preventDefault();
             const submitBtn = document.getElementById('submitBtn');
             const spinner = document.getElementById('submitSpinner');
-            const alert = document.getElementById('statusAlert');
+            const contactInfo = document.getElementById('contactInfo').value.trim();
+
+            if (!contactInfo) {
+                showStatus('Please enter a phone number or email address.', 'error');
+                return;
+            }
 
             submitBtn.disabled = true;
             spinner.classList.remove('hidden');
 
-            const payload = {
-                type: document.getElementById('submissionType').value,
-                contactInfo: document.getElementById('contactInfo').value,
-                fullName: document.getElementById('fullName').value,
-                location: document.getElementById('location').value,
-                service: document.getElementById('serviceSelect').value,
-                details: document.getElementById('details').value,
-                question: document.getElementById('details').value
-            };
+            const payload = readFormPayload();
 
             if (typeof google !== 'undefined' && google.script && google.script.run) {
                 google.script.run
                     .withSuccessHandler(res => {
                         submitBtn.disabled = false;
                         spinner.classList.add('hidden');
-                        alert.classList.remove('hidden');
-                        alert.textContent = res.message || "Submitted successfully!";
+                        showStatus(res && res.message ? res.message : 'Submitted successfully!', res && res.status === 'error' ? 'error' : 'success');
                         document.getElementById('unifiedForm').reset();
+                        switchFormType('quote');
                     })
-                    .withFailureHandler(err => {
+                    .withFailureHandler(() => {
                         submitBtn.disabled = false;
                         spinner.classList.add('hidden');
-                        alert.classList.remove('hidden');
-                        alert.textContent = "Error submitting request. Please try again or WhatsApp us.";
+                        showStatus('Error submitting request. Please try again or WhatsApp us.', 'error');
                     })
                     .processFormSubmission(payload);
             } else {
-                setTimeout(() => {
+                fetch('/api/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                })
+                .then(async res => {
+                    const data = await res.json().catch(() => ({ status: 'error', message: 'Submission failed.' }));
                     submitBtn.disabled = false;
                     spinner.classList.add('hidden');
-                    alert.classList.remove('hidden');
-                    alert.textContent = "Form submission simulated successfully.";
-                }, 1000);
+                    showStatus(data.message || 'Submitted successfully!', data.status === 'error' ? 'error' : 'success');
+                    if (data.status === 'success') {
+                        document.getElementById('unifiedForm').reset();
+                        switchFormType('quote');
+                    }
+                })
+                .catch(() => {
+                    submitBtn.disabled = false;
+                    spinner.classList.add('hidden');
+                    showStatus('Error submitting request. Please try again or WhatsApp us.', 'error');
+                });
             }
         }
     </script>
