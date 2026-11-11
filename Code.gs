@@ -1,12 +1,14 @@
 /**
- * Mazibuko Civil Works (MCW) - Comprehensive Backend Script
+ * Mazibuko Civil Works (MCW) - Backend Script
  * Target Spreadsheet ID: 1b2ldt35HijbAdsroXUCcZoGLWDuctfwOugmCwMd2QFo
  */
 
 const SPREADSHEET_ID = "1b2ldt35HijbAdsroXUCcZoGLWDuctfwOugmCwMd2QFo";
-const ADMIN_EMAIL = "mcw.services2024@outlook.com";
-const DRIVE_FOLDER_ID = ""; // Optional: Paste your Google Drive Folder ID here for file uploads
-const WHATSAPP_API_URL = ""; // Optional: CallMeBot or Twilio webhook URL for instant WhatsApp alerts
+const ADMIN_EMAILS = [
+  "mcw.services2024@outlook.com",
+  "info@mazibukocivilworks.co.za"
+];
+const DRIVE_FOLDER_ID = ""; // Optional: Paste your Google Drive Folder ID here if using file uploads
 const LOCK_WAIT_TIMEOUT = 10000; // 10 seconds
 
 /**
@@ -20,7 +22,7 @@ function doGet(e) {
 }
 
 /**
- * Handles form submissions securely from the frontend via google.script.run or doPost
+ * Handles form submissions securely from the frontend via google.script.run
  */
 function processFormSubmission(data) {
   const lock = LockService.getScriptLock();
@@ -32,30 +34,19 @@ function processFormSubmission(data) {
 
     data = data || {};
 
-    // 1. Anti-Spam: Check Honeypot field (bots fill hidden fields)
     if (data.website_hp) {
       return { status: 'error', message: 'Submission flagged as spam.' };
     }
 
-    // 2. Anti-Spam: Rate Limiting (Max 3 submissions per IP/Email every 5 minutes)
     const clientEmail = getClientEmail(data);
     if (!clientEmail) {
       return { status: 'error', message: 'Please provide a valid email address.' };
     }
 
-    const cache = CacheService.getScriptCache();
-    const rateKey = 'rate_' + clientEmail.replace(/[^a-z0-9]/g, '_');
-    const recentSubmissions = parseInt(cache.get(rateKey) || '0', 10);
-    if (recentSubmissions >= 3) {
-      return { status: 'error', message: 'Too many submissions. Please try again later.' };
-    }
-    cache.put(rateKey, (recentSubmissions + 1).toString(), 300); // 5 minute window
-
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     const timestamp = new Date();
     const submissionType = data.type ? data.type : 'quote';
 
-    // 3. Handle File Uploads to Google Drive if provided
     let fileUrl = 'None';
     if (data.file && data.file.data) {
       fileUrl = saveFileToDrive(data.file, data.fullName || clientEmail);
@@ -82,29 +73,28 @@ function processFormSubmission(data) {
         data.details || '',
         clientEmail,
         fileUrl,
-        'New' // Lead Status Pipeline
+        'New'
       ]);
 
-      // Generate PDF Quote Attachment
       const pdfBlob = generateQuotePdf(data);
-
-      // Send Confirmation Email with PDF attachment to Client
       const clientName = escapeHtml(data.fullName || "Valued Client");
-      const clientEmailBody = getEmailTemplate(
-        "Quote Request Received & Official Estimate",
+      
+      // Professional yet welcoming client email body
+      const clientEmailBody = getProfessionalEmailTemplate(
+        "Official Quotation Request Confirmation",
         `Dear <strong>${clientName}</strong>,`,
-        `Thank you for contacting <strong>Mazibuko Civil Works (MCW)</strong>.<br><br>We have received your request and attached your preliminary quotation details for your review. We will be in touch shortly.`,
-        `Need urgent assistance?`,
-        `Connect directly with us on WhatsApp at <strong>+27 69 877 7757</strong>.`,
+        `Thank you for contacting <strong>Mazibuko Civil Works (MCW)</strong>.<br><br>
+        We acknowledge receipt of your project inquiry. Our technical team is currently reviewing your specifications to ensure we provide you with an accurate and comprehensive proposal.<br><br>
+        For your convenience, we have attached an itemized summary PDF of your quote request to this email for your reference. We will follow up with you shortly to discuss next steps.`,
+        `Require Immediate Assistance?`,
+        `You may connect directly with our operations team via WhatsApp at <strong>+27 69 877 7757</strong> or reply directly to this communication.`,
         `#487138`
       );
-      sendMcwEmail(clientEmail, "MCW Quote Request Confirmation & Estimate", clientEmailBody, [pdfBlob]);
+      
+      sendMcwEmail(clientEmail, "MCW Quote Request Confirmation & Reference Summary", clientEmailBody, [pdfBlob]);
+      sendAdminNotifications('quote', data, clientEmail, fileUrl);
 
-      // Notify Admin (Email + WhatsApp)
-      sendAdminNotification('quote', data, clientEmail, fileUrl);
-      sendWhatsAppAlert(`New Quote from ${data.fullName || 'Client'}: ${data.service || 'General'}`);
-
-      return { status: 'success', message: 'Quote recorded, PDF estimate emailed, and team notified.' };
+      return { status: 'success', message: 'Quote recorded and emails dispatched successfully.' };
 
     } else if (submissionType === 'faq') {
       let sheet = ss.getSheetByName('FAQ') || ss.insertSheet('FAQ');
@@ -124,32 +114,33 @@ function processFormSubmission(data) {
         data.question || '',
         clientEmail,
         data.fullName || '',
-        'New' // Lead Status Pipeline
+        'New'
       ]);
 
-      // Send Confirmation to Client
+      const clientName = escapeHtml(data.fullName || "Valued Client");
       const topicSubject = data.topic ? ` regarding <strong>${escapeHtml(data.topic)}</strong>` : '';
-      const clientEmailBody = getEmailTemplate(
-        "Inquiry Received",
-        `Dear <strong>${escapeHtml(data.fullName || "Valued Client")}</strong>,`,
-        `Thank you for reaching out to <strong>Mazibuko Civil Works (MCW)</strong> with your inquiry${topicSubject}.<br><br>Our team is reviewing your question and will reply shortly.`,
-        `Quick Assistance`,
-        `Feel free to reach us on WhatsApp at <strong>+27 69 877 7757</strong>.`,
+      
+      const clientEmailBody = getProfessionalEmailTemplate(
+        "Inquiry Received - MCW Support",
+        `Dear <strong>${clientName}</strong>,`,
+        `Thank you for reaching out to <strong>Mazibuko Civil Works (MCW)</strong>${topicSubject}.<br><br>
+        We have successfully received your inquiry and routed it to the appropriate department. A specialist will review your question and respond with detailed information shortly.`,
+        `Direct Support Channel`,
+        `For urgent inquiries, please feel free to reach our team on WhatsApp at <strong>+27 69 877 7757</strong>.`,
         `#B5882D`
       );
-      sendMcwEmail(clientEmail, "MCW Inquiry Confirmation", clientEmailBody);
+      
+      sendMcwEmail(clientEmail, "MCW Inquiry Acknowledgment", clientEmailBody);
+      sendAdminNotifications('faq', data, clientEmail, fileUrl);
 
-      // Notify Admin (Email + WhatsApp)
-      sendAdminNotification('faq', data, clientEmail, fileUrl);
-      sendWhatsAppAlert(`New Inquiry from ${data.fullName || 'Client'}: ${data.topic || 'General'}`);
-
-      return { status: 'success', message: 'Inquiry recorded, confirmation sent, and team notified.' };
+      return { status: 'success', message: 'Inquiry recorded and emails dispatched successfully.' };
 
     } else {
       return { status: 'error', message: 'Invalid payload type.' };
     }
 
   } catch (error) {
+    Logger.log("FATAL ERROR in processFormSubmission: " + error.toString());
     return { status: 'error', message: error.toString() };
   } finally {
     lock.releaseLock();
@@ -157,7 +148,74 @@ function processFormSubmission(data) {
 }
 
 /**
- * Feature 2: Saves base64 encoded client files to Google Drive
+ * Robust Email Dispatcher
+ */
+function sendMcwEmail(recipient, subject, htmlBody, attachments = []) {
+  const options = {
+    name: "Mazibuko Civil Works",
+    htmlBody: htmlBody,
+    attachments: attachments
+  };
+
+  try {
+    GmailApp.sendEmail(recipient, subject, "", options);
+    Logger.log("Successfully sent email to: " + recipient);
+    return true;
+  } catch (err1) {
+    Logger.log("GmailApp failed for " + recipient + ": " + err1.toString() + ". Attempting MailApp fallback...");
+    try {
+      MailApp.sendEmail(recipient, subject, "", options);
+      return true;
+    } catch (err2) {
+      Logger.log("CRITICAL: Email dispatch failed for " + recipient + ": " + err2.toString());
+      return false;
+    }
+  }
+}
+
+/**
+ * Sends notifications to all Admin Emails (Outlook & info@mazibukocivilworks.co.za)
+ */
+function sendAdminNotifications(type, data, clientEmail, fileUrl) {
+  const subject = `🔔 New MCW ${type.toUpperCase()} Submission: ${data.fullName || 'Client'}`;
+  let detailsHtml = '';
+  
+  if (type === 'quote') {
+    detailsHtml = `
+      <p><strong>Service Requested:</strong> ${escapeHtml(data.service || 'N/A')}</p>
+      <p><strong>Project Location:</strong> ${escapeHtml(data.location || 'N/A')}</p>
+      <p><strong>Project Details:</strong><br>${escapeHtml(data.details || 'N/A').replace(/\n/g, '<br>')}</p>
+      <p><strong>File Attachment:</strong> <a href="${fileUrl}" target="_blank">View in Google Drive</a></p>
+    `;
+  } else {
+    detailsHtml = `
+      <p><strong>Question Topic:</strong> ${escapeHtml(data.topic || 'N/A')}</p>
+      <p><strong>Question Text:</strong><br>${escapeHtml(data.question || 'N/A').replace(/\n/g, '<br>')}</p>
+    `;
+  }
+
+  const htmlBody = `
+    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+      <h2 style="color: #487138;">New Website ${type.toUpperCase()} Submission</h2>
+      <hr style="border: 1px solid #ddd;">
+      <p><strong>Full Name:</strong> ${escapeHtml(data.fullName || 'N/A')}</p>
+      <p><strong>Email Address:</strong> ${escapeHtml(clientEmail)}</p>
+      <p><strong>Contact Info / Phone:</strong> ${escapeHtml(data.contactInfo || 'N/A')}</p>
+      ${detailsHtml}
+      <hr style="border: 1px solid #ddd;">
+      <p style="font-size: 12px; color: #777;">Automated notification from Mazibuko Civil Works website backend.</p>
+    </div>
+  `;
+
+  ADMIN_EMAILS.forEach(adminAddr => {
+    if (adminAddr) {
+      sendMcwEmail(adminAddr, subject, htmlBody);
+    }
+  });
+}
+
+/**
+ * Saves base64 encoded files to Google Drive
  */
 function saveFileToDrive(fileObj, clientName) {
   try {
@@ -176,7 +234,7 @@ function saveFileToDrive(fileObj, clientName) {
 }
 
 /**
- * Feature 3: Auto-generates a PDF Quotation Blob
+ * Auto-generates a PDF Quotation Blob
  */
 function generateQuotePdf(data) {
   const htmlContent = `
@@ -194,7 +252,7 @@ function generateQuotePdf(data) {
         <h4>Project Details:</h4>
         <p style="background: #f4f6f3; padding: 15px; border-left: 4px solid #487138;">${escapeHtml(data.details || 'N/A').replace(/\n/g, '<br>')}</p>
         <br><br>
-        <p style="font-size: 12px; color: #777; text-align: center;">Mazibuko Civil Works (MCW) | Phone / WhatsApp: +27 69 877 7757 | Email: mcw.services2024@outlook.com</p>
+        <p style="font-size: 12px; color: #777; text-align: center;">Mazibuko Civil Works (Pty) Ltd | Contact: +27 69 877 7757 | Email: info@mazibukocivilworks.co.za</p>
       </body>
     </html>
   `;
@@ -204,115 +262,46 @@ function generateQuotePdf(data) {
 }
 
 /**
- * Resilient Helper: Sends branded MCW emails via GmailApp with fallback and attachments
+ * Professional Corporate Client Email Template Builder
  */
-function sendMcwEmail(recipient, subject, htmlBody, attachments = []) {
-  if (MailApp.getRemainingDailyQuota() <= 0) return false;
-
-  const options = {
-    name: "Mazibuko Civil Works",
-    htmlBody: htmlBody,
-    attachments: attachments
-  };
-
-  try {
-    GmailApp.sendEmail(recipient, subject, "", options);
-    return true;
-  } catch (err1) {
-    Logger.log("GmailApp failed: " + err1.toString());
-    try {
-      MailApp.sendEmail(recipient, subject, "", options);
-      return true;
-    } catch (err2) {
-      return false;
-    }
-  }
-}
-
-/**
- * Feature 5: Sends instant WhatsApp alerts via webhook (e.g. CallMeBot / Twilio)
- */
-function sendWhatsAppAlert(message) {
-  if (!WHATSAPP_API_URL) return;
-  try {
-    UrlFetchApp.fetch(`${WHATSAPP_API_URL}&text=${encodeURIComponent(message)}`, {
-      method: 'get',
-      muteHttpExceptions: true
-    });
-  } catch (e) {
-    Logger.log("WhatsApp alert failed: " + e.toString());
-  }
-}
-
-/**
- * Sends Admin Notification Email
- */
-function sendAdminNotification(type, data, clientEmail, fileUrl) {
-  if (MailApp.getRemainingDailyQuota() <= 0) return;
-
-  const subject = `🔔 New MCW ${type.toUpperCase()} Submission: ${data.fullName || 'Client'}`;
-  const htmlBody = `
-    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-      <h2 style="color: #487138;">New Website ${type.toUpperCase()} Submission</h2>
-      <hr>
-      <p><strong>Full Name:</strong> ${escapeHtml(data.fullName || 'N/A')}</p>
-      <p><strong>Email:</strong> ${escapeHtml(clientEmail)}</p>
-      <p><strong>Phone:</strong> ${escapeHtml(data.contactInfo || 'N/A')}</p>
-      <p><strong>Service / Topic:</strong> ${escapeHtml(data.service || data.topic || 'N/A')}</p>
-      <p><strong>Location:</strong> ${escapeHtml(data.location || 'N/A')}</p>
-      <p><strong>Details:</strong><br>${escapeHtml(data.details || data.question || 'N/A').replace(/\n/g, '<br>')}</p>
-      <p><strong>File Attachment:</strong> <a href="${fileUrl}" target="_blank">View in Google Drive</a></p>
-    </div>
-  `;
-
-  try {
-    GmailApp.sendEmail(ADMIN_EMAIL, subject, "", {
-      name: "MCW Notification System",
-      htmlBody: htmlBody
-    });
-  } catch (e) {}
-}
-
-/**
- * Helper: Reusable HTML Email Template Builder
- */
-function getEmailTemplate(title, salutation, bodyText, alertTitle, alertText, alertBorderColor) {
+function getProfessionalEmailTemplate(title, salutation, bodyText, alertTitle, alertText, alertBorderColor) {
   return `
-    <div style="background-color: #f4f6f3; padding: 20px; font-family: Arial, sans-serif;">
-      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; border: 1px solid #e0e0e0;">
+    <div style="background-color: #f4f6f3; padding: 30px; font-family: 'Inter', Arial, sans-serif;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; border: 1px solid #dcdcdc; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+        
+        <!-- Header -->
         <div style="background-color: #487138; padding: 25px 20px; text-align: center; border-bottom: 4px solid #B5882D;">
-          <h2 style="color: #ffffff; margin: 0;">MAZIBUKO CIVIL WORKS</h2>
-          <p style="color: #e0e8dc; margin: 5px 0 0 0; font-size: 12px; font-style: italic;">Making things Possible</p>
+          <h1 style="color: #ffffff; margin: 0; font-size: 22px; font-weight: 700; letter-spacing: 0.5px;">MAZIBUKO CIVIL WORKS</h1>
+          <p style="color: #e0e8dc; margin: 6px 0 0 0; font-size: 12px; font-style: italic; letter-spacing: 0.3px;">Making things Possible</p>
         </div>
-        <div style="padding: 30px; color: #333333; line-height: 1.6;">
-          <h3 style="color: #487138; margin-top: 0;">${title}</h3>
-          <p>${salutation}</p>
+
+        <!-- Body Content -->
+        <div style="padding: 35px 30px; color: #333333; line-height: 1.6; font-size: 14px;">
+          <h2 style="color: #487138; margin-top: 0; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 10px;">${title}</h2>
+          <p style="font-size: 15px; font-weight: 600; color: #1c2b16; margin-top: 20px;">${salutation}</p>
           <p>${bodyText}</p>
-          <div style="background-color: #f4f7f2; border-left: 4px solid ${alertBorderColor}; padding: 15px; margin: 20px 0;">
-            <p style="margin: 0; font-size: 13px; color: ${alertBorderColor}; font-weight: bold;">${alertTitle}</p>
-            <p style="margin: 5px 0 0 0; font-size: 13px;">${alertText}</p>
+          
+          <!-- Professional Callout Box -->
+          <div style="background-color: #f8faf7; border-left: 4px solid ${alertBorderColor}; padding: 15px 18px; margin: 25px 0; border-radius: 0 6px 6px 0;">
+            <p style="margin: 0; font-size: 13px; color: ${alertBorderColor}; font-weight: bold; text-transform: uppercase; letter-spacing: 0.3px;">${alertTitle}</p>
+            <p style="margin: 5px 0 0 0; font-size: 13px; color: #444;">${alertText}</p>
           </div>
-          <p>Kind regards,</p>
-          <p style="margin: 0; font-weight: bold; color: #487138;">Team MCW</p>
+
+          <p style="margin-top: 30px;">Kind regards,</p>
+          <p style="margin: 0; font-weight: bold; color: #487138; font-size: 15px;">Management &amp; Operations Team</p>
+          <p style="margin: 2px 0 0 0; font-size: 13px; color: #555;">Mazibuko Civil Works (Pty) Ltd</p>
         </div>
+
+        <!-- Footer -->
+        <div style="background-color: #f4f6f3; padding: 20px; text-align: center; border-top: 1px solid #e2e8df; font-size: 11px; color: #555;">
+          <p style="margin: 0 0 4px 0; font-weight: bold; color: #487138;">Mazibuko Civil Works (Pty) Ltd</p>
+          <p style="margin: 0 0 4px 0;">Telephone / WhatsApp: +27 69 877 7757 | Email: info@mazibukocivilworks.co.za</p>
+          <p style="margin: 0; color: #777; font-style: italic;">Professional Property Maintenance &amp; Civil Site Support</p>
+        </div>
+
       </div>
     </div>
   `;
-}
-
-function doPost(e) {
-  let data = {};
-  try {
-    data = JSON.parse((e && e.postData && e.postData.contents) || '{}');
-  } catch (err) {
-    return jsonResponse({ status: 'error', message: 'Invalid JSON payload.' });
-  }
-  return jsonResponse(processFormSubmission(data));
-}
-
-function jsonResponse(obj) {
-  return ContentService.createTextOutput(JSON.stringify(obj))
-    .setMimeType(ContentService.MimeType.JSON);
 }
 
 function getClientEmail(data) {
