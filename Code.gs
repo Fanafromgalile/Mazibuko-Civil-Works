@@ -1,10 +1,13 @@
 /**
- * Mazibuko Civil Works (MCW) - Combined Backend Script
+ * Mazibuko Civil Works (MCW) - Backend Script
  * Target Spreadsheet ID: 1b2ldt35HijbAdsroXUCcZoGLWDuctfwOugmCwMd2QFo
  */
 
 const SPREADSHEET_ID = "1b2ldt35HijbAdsroXUCcZoGLWDuctfwOugmCwMd2QFo";
-const ADMIN_EMAIL = "mcw.services2024@outlook.com";
+const ADMIN_EMAILS = [
+  "mcw.services2024@outlook.com",
+  "info@mazibukocivilworks.co.za"
+];
 const DRIVE_FOLDER_ID = ""; // Optional: Paste your Google Drive Folder ID here if using file uploads
 const LOCK_WAIT_TIMEOUT = 10000; // 10 seconds
 
@@ -19,20 +22,7 @@ function doGet(e) {
 }
 
 /**
- * Handles form submissions securely from the frontend via doPost
- */
-function doPost(e) {
-  let data = {};
-  try {
-    data = JSON.parse((e && e.postData && e.postData.contents) || '{}');
-  } catch (err) {
-    return jsonResponse({ status: 'error', message: 'Invalid JSON payload.' });
-  }
-  return jsonResponse(processFormSubmission(data));
-}
-
-/**
- * Core processing logic for Quotes and FAQs
+ * Handles form submissions securely from the frontend via google.script.run
  */
 function processFormSubmission(data) {
   const lock = LockService.getScriptLock();
@@ -44,7 +34,6 @@ function processFormSubmission(data) {
 
     data = data || {};
 
-    // 1. Anti-Spam Honeypot Check
     if (data.website_hp) {
       return { status: 'error', message: 'Submission flagged as spam.' };
     }
@@ -58,7 +47,6 @@ function processFormSubmission(data) {
     const timestamp = new Date();
     const submissionType = data.type ? data.type : 'quote';
 
-    // 2. Handle File Uploads to Google Drive if provided
     let fileUrl = 'None';
     if (data.file && data.file.data) {
       fileUrl = saveFileToDrive(data.file, data.fullName || clientEmail);
@@ -85,23 +73,26 @@ function processFormSubmission(data) {
         data.details || '',
         clientEmail,
         fileUrl,
-        'New' // Pipeline status
+        'New'
       ]);
 
-      // 3. Generate PDF Quote & Send Emails
       const pdfBlob = generateQuotePdf(data);
       const clientName = escapeHtml(data.fullName || "Valued Client");
-      const clientEmailBody = getEmailTemplate(
-        "Quote Request Received & Official Estimate",
+      
+      // Professional yet welcoming client email body
+      const clientEmailBody = getProfessionalEmailTemplate(
+        "Official Quotation Request Confirmation",
         `Dear <strong>${clientName}</strong>,`,
-        `Thank you for contacting <strong>Mazibuko Civil Works (MCW)</strong>.<br><br>We have received your request and attached your preliminary quotation details for your review.`,
-        `Need urgent assistance?`,
-        `Connect directly with us on WhatsApp at <strong>+27 69 877 7757</strong>.`,
+        `Thank you for contacting <strong>Mazibuko Civil Works (MCW)</strong>.<br><br>
+        We acknowledge receipt of your project inquiry. Our technical team is currently reviewing your specifications to ensure we provide you with an accurate and comprehensive proposal.<br><br>
+        For your convenience, we have attached an itemized summary PDF of your quote request to this email for your reference. We will follow up with you shortly to discuss next steps.`,
+        `Require Immediate Assistance?`,
+        `You may connect directly with our operations team via WhatsApp at <strong>+27 69 877 7757</strong> or reply directly to this communication.`,
         `#487138`
       );
       
-      sendMcwEmail(clientEmail, "MCW Quote Request Confirmation & Estimate", clientEmailBody, [pdfBlob]);
-      sendAdminNotification('quote', data, clientEmail, fileUrl);
+      sendMcwEmail(clientEmail, "MCW Quote Request Confirmation & Reference Summary", clientEmailBody, [pdfBlob]);
+      sendAdminNotifications('quote', data, clientEmail, fileUrl);
 
       return { status: 'success', message: 'Quote recorded and emails dispatched successfully.' };
 
@@ -123,21 +114,24 @@ function processFormSubmission(data) {
         data.question || '',
         clientEmail,
         data.fullName || '',
-        'New' // Pipeline status
+        'New'
       ]);
 
+      const clientName = escapeHtml(data.fullName || "Valued Client");
       const topicSubject = data.topic ? ` regarding <strong>${escapeHtml(data.topic)}</strong>` : '';
-      const clientEmailBody = getEmailTemplate(
-        "Inquiry Received",
-        `Dear <strong>${escapeHtml(data.fullName || "Valued Client")}</strong>,`,
-        `Thank you for reaching out to <strong>Mazibuko Civil Works (MCW)</strong> with your inquiry${topicSubject}.<br><br>Our team is reviewing your question and will reply shortly.`,
-        `Quick Assistance`,
-        `Feel free to reach us on WhatsApp at <strong>+27 69 877 7757</strong>.`,
+      
+      const clientEmailBody = getProfessionalEmailTemplate(
+        "Inquiry Received - MCW Support",
+        `Dear <strong>${clientName}</strong>,`,
+        `Thank you for reaching out to <strong>Mazibuko Civil Works (MCW)</strong>${topicSubject}.<br><br>
+        We have successfully received your inquiry and routed it to the appropriate department. A specialist will review your question and respond with detailed information shortly.`,
+        `Direct Support Channel`,
+        `For urgent inquiries, please feel free to reach our team on WhatsApp at <strong>+27 69 877 7757</strong>.`,
         `#B5882D`
       );
       
-      sendMcwEmail(clientEmail, "MCW Inquiry Confirmation", clientEmailBody);
-      sendAdminNotification('faq', data, clientEmail, fileUrl);
+      sendMcwEmail(clientEmail, "MCW Inquiry Acknowledgment", clientEmailBody);
+      sendAdminNotifications('faq', data, clientEmail, fileUrl);
 
       return { status: 'success', message: 'Inquiry recorded and emails dispatched successfully.' };
 
@@ -154,7 +148,7 @@ function processFormSubmission(data) {
 }
 
 /**
- * Robust Email Dispatcher with Detailed Logging & Fallback
+ * Robust Email Dispatcher
  */
 function sendMcwEmail(recipient, subject, htmlBody, attachments = []) {
   const options = {
@@ -165,27 +159,27 @@ function sendMcwEmail(recipient, subject, htmlBody, attachments = []) {
 
   try {
     GmailApp.sendEmail(recipient, subject, "", options);
-    Logger.log("Successfully sent email via GmailApp to: " + recipient);
+    Logger.log("Successfully sent email to: " + recipient);
     return true;
   } catch (err1) {
     Logger.log("GmailApp failed for " + recipient + ": " + err1.toString() + ". Attempting MailApp fallback...");
     try {
       MailApp.sendEmail(recipient, subject, "", options);
-      Logger.log("Successfully sent email via MailApp fallback to: " + recipient);
       return true;
     } catch (err2) {
-      Logger.log("CRITICAL: Both GmailApp and MailApp failed for " + recipient + ": " + err2.toString());
+      Logger.log("CRITICAL: Email dispatch failed for " + recipient + ": " + err2.toString());
       return false;
     }
   }
 }
 
 /**
- * Sends Admin Notification Email
+ * Sends notifications to all Admin Emails (Outlook & info@mazibukocivilworks.co.za)
  */
-function sendAdminNotification(type, data, clientEmail, fileUrl) {
+function sendAdminNotifications(type, data, clientEmail, fileUrl) {
   const subject = `🔔 New MCW ${type.toUpperCase()} Submission: ${data.fullName || 'Client'}`;
   let detailsHtml = '';
+  
   if (type === 'quote') {
     detailsHtml = `
       <p><strong>Service Requested:</strong> ${escapeHtml(data.service || 'N/A')}</p>
@@ -212,7 +206,12 @@ function sendAdminNotification(type, data, clientEmail, fileUrl) {
       <p style="font-size: 12px; color: #777;">Automated notification from Mazibuko Civil Works website backend.</p>
     </div>
   `;
-  sendMcwEmail(ADMIN_EMAIL, subject, htmlBody);
+
+  ADMIN_EMAILS.forEach(adminAddr => {
+    if (adminAddr) {
+      sendMcwEmail(adminAddr, subject, htmlBody);
+    }
+  });
 }
 
 /**
@@ -253,7 +252,7 @@ function generateQuotePdf(data) {
         <h4>Project Details:</h4>
         <p style="background: #f4f6f3; padding: 15px; border-left: 4px solid #487138;">${escapeHtml(data.details || 'N/A').replace(/\n/g, '<br>')}</p>
         <br><br>
-        <p style="font-size: 12px; color: #777; text-align: center;">Mazibuko Civil Works (MCW) | Phone / WhatsApp: +27 69 877 7757 | Email: mcw.services2024@outlook.com</p>
+        <p style="font-size: 12px; color: #777; text-align: center;">Mazibuko Civil Works (Pty) Ltd | Contact: +27 69 877 7757 | Email: info@mazibukocivilworks.co.za</p>
       </body>
     </html>
   `;
@@ -263,35 +262,46 @@ function generateQuotePdf(data) {
 }
 
 /**
- * Reusable HTML Email Template Builder
+ * Professional Corporate Client Email Template Builder
  */
-function getEmailTemplate(title, salutation, bodyText, alertTitle, alertText, alertBorderColor) {
+function getProfessionalEmailTemplate(title, salutation, bodyText, alertTitle, alertText, alertBorderColor) {
   return `
-    <div style="background-color: #f4f6f3; padding: 20px; font-family: Arial, sans-serif;">
-      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; border: 1px solid #e0e0e0;">
+    <div style="background-color: #f4f6f3; padding: 30px; font-family: 'Inter', Arial, sans-serif;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; border: 1px solid #dcdcdc; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+        
+        <!-- Header -->
         <div style="background-color: #487138; padding: 25px 20px; text-align: center; border-bottom: 4px solid #B5882D;">
-          <h2 style="color: #ffffff; margin: 0;">MAZIBUKO CIVIL WORKS</h2>
-          <p style="color: #e0e8dc; margin: 5px 0 0 0; font-size: 12px; font-style: italic;">Making things Possible</p>
+          <h1 style="color: #ffffff; margin: 0; font-size: 22px; font-weight: 700; letter-spacing: 0.5px;">MAZIBUKO CIVIL WORKS</h1>
+          <p style="color: #e0e8dc; margin: 6px 0 0 0; font-size: 12px; font-style: italic; letter-spacing: 0.3px;">Making things Possible</p>
         </div>
-        <div style="padding: 30px; color: #333333; line-height: 1.6;">
-          <h3 style="color: #487138; margin-top: 0;">${title}</h3>
-          <p>${salutation}</p>
+
+        <!-- Body Content -->
+        <div style="padding: 35px 30px; color: #333333; line-height: 1.6; font-size: 14px;">
+          <h2 style="color: #487138; margin-top: 0; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 10px;">${title}</h2>
+          <p style="font-size: 15px; font-weight: 600; color: #1c2b16; margin-top: 20px;">${salutation}</p>
           <p>${bodyText}</p>
-          <div style="background-color: #f4f7f2; border-left: 4px solid ${alertBorderColor}; padding: 15px; margin: 20px 0;">
-            <p style="margin: 0; font-size: 13px; color: ${alertBorderColor}; font-weight: bold;">${alertTitle}</p>
-            <p style="margin: 5px 0 0 0; font-size: 13px;">${alertText}</p>
+          
+          <!-- Professional Callout Box -->
+          <div style="background-color: #f8faf7; border-left: 4px solid ${alertBorderColor}; padding: 15px 18px; margin: 25px 0; border-radius: 0 6px 6px 0;">
+            <p style="margin: 0; font-size: 13px; color: ${alertBorderColor}; font-weight: bold; text-transform: uppercase; letter-spacing: 0.3px;">${alertTitle}</p>
+            <p style="margin: 5px 0 0 0; font-size: 13px; color: #444;">${alertText}</p>
           </div>
-          <p>Kind regards,</p>
-          <p style="margin: 0; font-weight: bold; color: #487138;">Team MCW</p>
+
+          <p style="margin-top: 30px;">Kind regards,</p>
+          <p style="margin: 0; font-weight: bold; color: #487138; font-size: 15px;">Management &amp; Operations Team</p>
+          <p style="margin: 2px 0 0 0; font-size: 13px; color: #555;">Mazibuko Civil Works (Pty) Ltd</p>
         </div>
+
+        <!-- Footer -->
+        <div style="background-color: #f4f6f3; padding: 20px; text-align: center; border-top: 1px solid #e2e8df; font-size: 11px; color: #555;">
+          <p style="margin: 0 0 4px 0; font-weight: bold; color: #487138;">Mazibuko Civil Works (Pty) Ltd</p>
+          <p style="margin: 0 0 4px 0;">Telephone / WhatsApp: +27 69 877 7757 | Email: info@mazibukocivilworks.co.za</p>
+          <p style="margin: 0; color: #777; font-style: italic;">Professional Property Maintenance &amp; Civil Site Support</p>
+        </div>
+
       </div>
     </div>
   `;
-}
-
-function jsonResponse(obj) {
-  return ContentService.createTextOutput(JSON.stringify(obj))
-    .setMimeType(ContentService.MimeType.JSON);
 }
 
 function getClientEmail(data) {
