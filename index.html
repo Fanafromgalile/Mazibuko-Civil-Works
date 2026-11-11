@@ -56,7 +56,6 @@
             background-position: center;
         }
 
-        /* Smooth popup hover animation for service cards & options */
         .pop-on-hover {
             transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease;
         }
@@ -66,7 +65,6 @@
             border-color: #487138;
         }
 
-        /* Blurry preview style for coming soon phases */
         .roadmap-blur {
             filter: blur(0.4px);
             opacity: 0.85;
@@ -96,12 +94,10 @@
         </div>
     </div>
 
-    <!-- SIMPLE NAVIGATION HEADER -->
+    <!-- NAVIGATION HEADER -->
     <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                
-                <!-- BRAND LOGO -->
                 <button onclick="switchTab('home')" class="flex items-center gap-3 text-left focus:outline-none group">
                     <span class="font-display font-black text-3xl text-mcw-green tracking-tight group-hover:scale-105 transition-transform">MCW</span>
                     <div class="flex flex-col border-l-2 border-slate-200 pl-3">
@@ -110,7 +106,6 @@
                     </div>
                 </button>
 
-                <!-- DESKTOP NAVIGATION -->
                 <nav class="hidden md:flex space-x-6 text-sm font-medium">
                     <button id="nav-home" onclick="switchTab('home')" class="nav-btn active py-7 transition-colors">Home &amp; Services</button>
                     <button id="nav-about" onclick="switchTab('about')" class="nav-btn py-7 transition-colors">About &amp; Roadmap</button>
@@ -118,7 +113,6 @@
                     <button id="nav-contact" onclick="switchTab('contact')" class="nav-btn py-7 transition-colors">Contact &amp; Quotes</button>
                 </nav>
 
-                <!-- TOP CTA -->
                 <button onclick="switchTab('contact')" class="hidden sm:inline-flex bg-mcw-green hover:bg-mcw-greenhover text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-all items-center gap-2 shadow-sm hover:shadow">
                     <span>Get Free Quote</span>
                     <i class="fa-solid fa-arrow-right text-xs"></i>
@@ -132,7 +126,6 @@
 
         <!-- ================= PAGE 1: HOME & SERVICES ================= -->
         <div id="view-home" class="tab-view active">
-            <!-- HERO SECTION -->
             <section class="hero-bg py-16 lg:py-24 text-white">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center lg:text-left">
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
@@ -157,7 +150,6 @@
                             </div>
                         </div>
 
-                        <!-- HIGHLIGHT BOX -->
                         <div class="lg:col-span-5 bg-mcw-dark/95 p-6 sm:p-8 rounded-3xl border border-slate-700 shadow-2xl text-left space-y-4 pop-on-hover">
                             <h3 class="font-display font-bold text-base sm:text-lg text-white border-b border-slate-700 pb-3 flex items-center gap-2">
                                 <i class="fa-solid fa-circle-check text-mcw-gold"></i> Fast &amp; Dependable Service
@@ -178,7 +170,6 @@
                 </div>
             </section>
 
-            <!-- OUR SERVICES GRID (WITH HOVER EFFECTS) -->
             <section class="py-16 bg-white">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center max-w-2xl mx-auto mb-12">
@@ -188,19 +179,17 @@
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <!-- SERVICE 1 -->
                         <div class="bg-mcw-bglight p-6 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-sm pop-on-hover cursor-pointer" onclick="switchTab('contact')">
                             <div>
-                                <div class="w-12 h-12 bg-mcw-greenlight text-mcw-green rounded-xl flex items-center justify-center text-xl mb-4 transition-transform group-hover:scale-110">
+                                <div class="w-12 h-12 bg-mcw-greenlight text-mcw-green rounded-xl flex items-center justify-center text-xl mb-4">
                                     <i class="fa-solid fa-scissors"></i>
                                 </div>
                                 <h3 class="font-display font-bold text-base text-slate-900 mb-2">Garden &amp; Lawn Mowing</h3>
                                 <p class="text-xs text-slate-600 leading-relaxed mb-4">Lawn cutting, edging, hedge trimming, weed clearance, and garden refuse disposal.</p>
                             </div>
-                            <span class="text-xs font-bold text-mcw-green flex items-center gap-1 group-hover:translate-x-1 transition-transform">Request Service <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                            <span class="text-xs font-bold text-mcw-green flex items-center gap-1">Request Service <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
                         </div>
 
-                        <!-- SERVICE 2 -->
                         <div class="bg-mcw-bglight p-6 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-sm pop-on-hover cursor-pointer" onclick="switchTab('contact')">
                             <div>
                                 <div class="w-12 h-12 bg-amber-50 text-mcw-gold rounded-xl flex items-center justify-center text-xl mb-4">
@@ -212,7 +201,6 @@
                             <span class="text-xs font-bold text-mcw-green flex items-center gap-1">Request Service <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
                         </div>
 
-                        <!-- SERVICE 3 -->
                         <div class="bg-mcw-bglight p-6 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-sm pop-on-hover cursor-pointer" onclick="switchTab('contact')">
                             <div>
                                 <div class="w-12 h-12 bg-mcw-greenlight text-mcw-green rounded-xl flex items-center justify-center text-xl mb-4">
@@ -224,7 +212,6 @@
                             <span class="text-xs font-bold text-mcw-green flex items-center gap-1">Request Service <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
                         </div>
 
-                        <!-- SERVICE 4 -->
                         <div class="bg-mcw-bglight p-6 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-sm pop-on-hover cursor-pointer" onclick="switchTab('contact')">
                             <div>
                                 <div class="w-12 h-12 bg-slate-200 text-slate-800 rounded-xl flex items-center justify-center text-xl mb-4">
@@ -240,12 +227,10 @@
             </section>
         </div>
 
-        <!-- ================= PAGE 2: ABOUT US & GROWTH ROADMAP ================= -->
+        <!-- ================= PAGE 2: ABOUT US & ROADMAP ================= -->
         <div id="view-about" class="tab-view">
             <section class="py-16 bg-white">
                 <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-                    
-                    <!-- HEADER -->
                     <div class="text-center">
                         <span class="text-xs font-bold uppercase tracking-widest text-mcw-green">Company Profile</span>
                         <h2 class="text-3xl sm:text-4xl font-display font-extrabold text-slate-900 mt-1">About Mazibuko Civil Works</h2>
@@ -253,7 +238,6 @@
                         <p class="text-slate-600 italic">"Making things Possible"</p>
                     </div>
 
-                    <!-- WHO WE ARE & MISSION / VISION -->
                     <div class="space-y-6">
                         <div class="bg-mcw-bglight p-6 sm:p-8 rounded-3xl border border-slate-200 text-slate-700 leading-relaxed text-xs sm:text-sm space-y-4 shadow-sm pop-on-hover">
                             <h3 class="text-xl font-display font-bold text-slate-900 flex items-center gap-2">
@@ -262,128 +246,8 @@
                             <p>
                                 <strong>Mazibuko Civil Works (MCW)</strong> is a proudly South African, registered company established with a clear vision: to deliver reliable, affordable, and professional services across property maintenance, cleaning, and civil support sectors.
                             </p>
-                            <p>
-                                We help residential, commercial, and business clients maintain clean, safe, and functional environments while building the track record and capacity needed for larger infrastructure and civil engineering projects down the line.
-                            </p>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="bg-mcw-dark text-white p-6 sm:p-8 rounded-3xl border border-mcw-green/40 space-y-3 shadow-lg pop-on-hover">
-                                <div class="w-12 h-12 rounded-xl bg-mcw-green flex items-center justify-center text-white text-xl">
-                                    <i class="fa-solid fa-eye"></i>
-                                </div>
-                                <h3 class="text-lg font-display font-bold text-white">Our Vision</h3>
-                                <p class="text-slate-300 text-xs leading-relaxed">
-                                    To grow from delivering exceptional property maintenance services today into a reputable civil works, infrastructure development, and mining support enterprise across South Africa.
-                                </p>
-                            </div>
-
-                            <div class="bg-mcw-dark text-white p-6 sm:p-8 rounded-3xl border border-mcw-gold/40 space-y-3 shadow-lg pop-on-hover">
-                                <div class="w-12 h-12 rounded-xl bg-mcw-gold flex items-center justify-center text-mcw-dark text-xl">
-                                    <i class="fa-solid fa-bullseye"></i>
-                                </div>
-                                <h3 class="text-lg font-display font-bold text-white">Our Mission</h3>
-                                <p class="text-slate-300 text-xs leading-relaxed">
-                                    To provide dependable, high-quality, and transparent solutions for our clients while fostering community upliftment, local job creation, and long-term business sustainability.
-                                </p>
-                            </div>
                         </div>
                     </div>
-
-                    <!-- CORE VALUES & PHILOSOPHY -->
-                    <div class="bg-mcw-bglight p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
-                        <div class="text-center max-w-xl mx-auto">
-                            <span class="text-xs font-bold uppercase tracking-widest text-mcw-gold">Our Principles</span>
-                            <h3 class="text-2xl font-display font-bold text-slate-900 mt-1">Core Values &amp; Philosophy</h3>
-                            <p class="text-xs text-slate-600 mt-2">At MCW, every successful project is anchored on integrity, quality workmanship, and community commitment.</p>
-                        </div>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center pop-on-hover">
-                                <div class="w-10 h-10 rounded-full bg-mcw-green/10 text-mcw-green flex items-center justify-center text-base mx-auto mb-3">
-                                    <i class="fa-solid fa-shield-halved"></i>
-                                </div>
-                                <h4 class="font-display font-bold text-slate-900 text-sm mb-1">Integrity</h4>
-                                <p class="text-[11px] text-slate-600">Honest pricing, transparency, and reliable execution on every contract.</p>
-                            </div>
-
-                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center pop-on-hover">
-                                <div class="w-10 h-10 rounded-full bg-amber-100 text-mcw-gold flex items-center justify-center text-base mx-auto mb-3">
-                                    <i class="fa-solid fa-award"></i>
-                                </div>
-                                <h4 class="font-display font-bold text-slate-900 text-sm mb-1">Quality Standards</h4>
-                                <p class="text-[11px] text-slate-600">Uncompromising commitment to top-tier property and site care results.</p>
-                            </div>
-
-                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center pop-on-hover">
-                                <div class="w-10 h-10 rounded-full bg-mcw-green/10 text-mcw-green flex items-center justify-center text-base mx-auto mb-3">
-                                    <i class="fa-solid fa-users"></i>
-                                </div>
-                                <h4 class="font-display font-bold text-slate-900 text-sm mb-1">Empowerment</h4>
-                                <p class="text-[11px] text-slate-600">Creating employment opportunities and uplifting South African communities.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- GROWTH ROADMAP -->
-                    <div class="space-y-6">
-                        <div class="text-center max-w-xl mx-auto">
-                            <span class="text-xs font-bold uppercase tracking-widest text-mcw-gold">Future Expansion</span>
-                            <h3 class="text-2xl font-display font-bold text-slate-900 mt-1">Growth Roadmap</h3>
-                            <p class="text-xs text-slate-600 mt-2">Scaling capability from property maintenance into large-scale civil construction and mining support.</p>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <!-- PHASE 1: ACTIVE -->
-                            <div class="bg-mcw-dark text-white p-6 sm:p-8 rounded-3xl border border-mcw-green shadow-xl flex flex-col justify-between pop-on-hover">
-                                <div class="space-y-3">
-                                    <span class="inline-block bg-mcw-green text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                                        Phase 1 <i class="fa-solid fa-check ml-1"></i>
-                                    </span>
-                                    <h4 class="text-xl font-display font-bold text-white">Property &amp; Yard Care</h4>
-                                    <p class="text-xs text-slate-300 leading-relaxed">
-                                        Active operations delivering garden maintenance, lawn mowing, facility cleaning, and property upkeep for homes and businesses.
-                                    </p>
-                                </div>
-                                <div class="pt-4 border-t border-slate-800 text-[11px] text-mcw-gold font-semibold">
-                                    Active Operations Today
-                                </div>
-                            </div>
-
-                            <!-- PHASE 2: COMING SOON & BLURRY -->
-                            <div class="bg-mcw-dark/80 text-white p-6 sm:p-8 rounded-3xl border border-slate-700 shadow-lg flex flex-col justify-between roadmap-blur">
-                                <div class="space-y-3">
-                                    <span class="inline-block bg-amber-500/20 text-mcw-gold border border-mcw-gold/40 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                                        Phase 2 <i class="fa-solid fa-clock text-[9px] ml-1"></i> Coming Soon
-                                    </span>
-                                    <h4 class="text-xl font-display font-bold text-white">Construction &amp; Building</h4>
-                                    <p class="text-xs text-slate-300 leading-relaxed">
-                                        Expanding core capabilities into general building support, structural alterations, and site infrastructure development.
-                                    </p>
-                                </div>
-                                <div class="pt-4 border-t border-slate-800 text-[11px] text-slate-400">
-                                    Future Strategic Expansion
-                                </div>
-                            </div>
-
-                            <!-- PHASE 3: COMING SOON & BLURRY -->
-                            <div class="bg-mcw-dark/80 text-white p-6 sm:p-8 rounded-3xl border border-slate-700 shadow-lg flex flex-col justify-between roadmap-blur">
-                                <div class="space-y-3">
-                                    <span class="inline-block bg-slate-800 text-slate-300 border border-slate-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                                        Phase 3 <i class="fa-solid fa-clock text-[9px] ml-1"></i> Coming Soon
-                                    </span>
-                                    <h4 class="text-xl font-display font-bold text-white">Mining &amp; Heavy Support</h4>
-                                    <p class="text-xs text-slate-300 leading-relaxed">
-                                        Providing specialized mining support services, site clearings, earthworks, and heavy equipment logistics across South Africa.
-                                    </p>
-                                </div>
-                                <div class="pt-4 border-t border-slate-800 text-[11px] text-slate-400">
-                                    Long-Term Growth Goal
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </section>
         </div>
@@ -395,7 +259,6 @@
                     <div class="text-center mb-10">
                         <span class="text-xs font-bold uppercase tracking-widest text-mcw-gold">Instant Estimate</span>
                         <h2 class="text-3xl font-display font-extrabold text-slate-900 mt-1">Service Price Estimator</h2>
-                        <p class="text-xs text-slate-600 mt-2">Get a quick estimate in South African Rand (ZAR) for your project.</p>
                     </div>
 
                     <div class="bg-mcw-bglight rounded-3xl p-6 sm:p-8 border border-slate-200 grid grid-cols-1 md:grid-cols-12 gap-8 items-center shadow-sm">
@@ -431,7 +294,6 @@
                         <div class="md:col-span-5 bg-mcw-dark text-white p-6 rounded-2xl text-center space-y-4 shadow-xl pop-on-hover">
                             <span class="text-xs uppercase text-mcw-gold font-bold tracking-wider">Estimated Starting Price</span>
                             <div id="estPriceDisplay" class="text-4xl sm:text-5xl font-display font-black text-white">R 350</div>
-                            <p id="estPriceNote" class="text-[11px] text-slate-300 italic">*Includes lawn cutting, trimming, and waste disposal.</p>
                             <button onclick="applyEstimateToForm()" class="w-full bg-mcw-green hover:bg-mcw-greenhover text-white text-xs font-bold py-3.5 rounded-xl transition-all shadow-md">
                                 Apply Estimate to Form
                             </button>
@@ -447,95 +309,106 @@
                 <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-200 grid grid-cols-1 lg:grid-cols-12">
                         
-                        <!-- LEFT DIRECT DETAILS -->
                         <div class="lg:col-span-5 bg-mcw-dark text-white p-8 flex flex-col justify-between">
                             <div class="space-y-6">
                                 <h2 class="text-2xl font-display font-bold text-white">Get In Touch</h2>
-                                <p class="text-xs text-slate-300 leading-relaxed">Fill out the form or reach out directly for immediate assistance or site bookings.</p>
-                                
+                                <p class="text-xs text-slate-300 leading-relaxed">Fill out the form for a fast quote or professional inquiry response from Mazibuko Civil Works.</p>
                                 <div class="space-y-4 text-xs">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-mcw-gold shrink-0">
-                                            <i class="fa-solid fa-phone"></i>
-                                        </div>
-                                        <span>+27 69 877 7757</span>
+                                    <div class="flex items-start gap-3">
+                                        <i class="fa-solid fa-location-dot text-mcw-gold mt-1"></i>
+                                        <span>Soweto, Johannesburg, Gauteng, South Africa</span>
                                     </div>
                                     <div class="flex items-center gap-3">
-                                        <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-mcw-gold shrink-0">
-                                            <i class="fa-solid fa-envelope"></i>
-                                        </div>
-                                        <span class="break-all">mcw.services2024@outlook.com</span>
+                                        <i class="fa-solid fa-phone text-mcw-gold"></i>
+                                        <a href="tel:+27698777757" class="hover:text-mcw-gold">+27 69 877 7757</a>
                                     </div>
                                     <div class="flex items-center gap-3">
-                                        <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-mcw-gold shrink-0">
-                                            <i class="fa-solid fa-location-dot"></i>
-                                        </div>
-                                        <span>Soweto, Johannesburg &amp; Gauteng</span>
+                                        <i class="fa-brands fa-whatsapp text-emerald-400 text-base"></i>
+                                        <a href="https://wa.me/27698777757" target="_blank" class="hover:text-mcw-gold">+27 69 877 7757</a>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <i class="fa-solid fa-envelope text-mcw-gold"></i>
+                                        <span>mcw.services2024@outlook.com</span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="pt-8 border-t border-slate-800 mt-6">
-                                <a href="https://wa.me/27698777757" target="_blank" class="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-3.5 rounded-xl transition-all shadow-md">
-                                    <i class="fa-brands fa-whatsapp text-sm"></i> Chat Directly on WhatsApp
-                                </a>
                             </div>
                         </div>
 
-                        <!-- RIGHT UNIFIED FORM -->
-                        <div class="lg:col-span-7 p-6 sm:p-8">
-                            <div class="flex border-b border-slate-200 mb-6 pb-2">
-                                <button type="button" id="toggleQuoteBtn" onclick="switchFormType('quote')" class="text-xs font-bold px-4 py-2 text-mcw-green border-b-2 border-mcw-green transition-colors">Request a Quote</button>
-                                <button type="button" id="toggleFaqBtn" onclick="switchFormType('faq')" class="text-xs font-bold px-4 py-2 text-slate-500 transition-colors">General Inquiry</button>
+                        <!-- SUBMISSION FORM WITH FILE UPLOAD & HONEYPOT -->
+                        <div class="lg:col-span-7 p-8 sm:p-10">
+                            <div class="flex gap-4 mb-6 border-b border-slate-200 pb-4">
+                                <button type="button" id="typeQuoteBtn" onclick="setSubmissionType('quote')" class="flex-1 py-2 text-xs font-bold rounded-xl bg-mcw-green text-white transition-all shadow-sm">Request a Quote</button>
+                                <button type="button" id="typeFaqBtn" onclick="setSubmissionType('faq')" class="flex-1 py-2 text-xs font-bold rounded-xl bg-slate-100 text-slate-700 transition-all">General Inquiry</button>
                             </div>
 
-                            <div id="statusAlert" class="hidden mb-4 p-3 bg-mcw-greenlight border border-mcw-green text-mcw-dark text-xs rounded-xl"></div>
-
-                            <form id="unifiedForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
-                                <input type="hidden" id="submissionType" value="quote">
+                            <form id="mcwForm" onsubmit="handleFormSubmit(event)" class="space-y-4 text-xs sm:text-sm">
+                                <input type="hidden" id="subType" value="quote">
+                                
+                                <!-- Anti-Spam Honeypot Field (Hidden from real users, bots fill it) -->
+                                <div style="display:none !important;" aria-hidden="true">
+                                    <label>Do not fill this field if you are human:</label>
+                                    <input type="text" id="website_hp" name="website_hp" tabindex="-1" autocomplete="off">
+                                </div>
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label for="fullName" class="block text-xs font-bold text-slate-700 uppercase mb-1">Full Name *</label>
-                                        <input type="text" id="fullName" required autocomplete="name" placeholder="e.g. John Doe" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
+                                        <label class="block font-bold text-slate-700 mb-1">Full Name *</label>
+                                        <input type="text" id="fullName" required class="w-full p-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-mcw-green focus:outline-none">
                                     </div>
                                     <div>
-                                        <label for="email" class="block text-xs font-bold text-slate-700 uppercase mb-1">Email Address *</label>
-                                        <input type="email" id="email" required autocomplete="email" placeholder="email@example.com" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
+                                        <label class="block font-bold text-slate-700 mb-1">Email Address *</label>
+                                        <input type="email" id="email" required class="w-full p-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-mcw-green focus:outline-none" placeholder="name@example.com">
                                     </div>
                                 </div>
 
-                                <div>
-                                    <label for="contactInfo" class="block text-xs font-bold text-slate-700 uppercase mb-1">Phone Number</label>
-                                    <input type="tel" id="contactInfo" autocomplete="tel" placeholder="082 123 4567" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
-                                </div>
-
-                                <div id="quoteFields" class="space-y-4">
-                                    <div class="grid grid-cols-1 gap-4">
-                                        <div>
-                                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Location / Suburb</label>
-                                            <input type="text" id="location" placeholder="e.g. Soweto" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
-                                        </div>
-                                    </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Required Service</label>
-                                        <select id="serviceSelect" class="w-full p-3 rounded-xl border border-slate-300 text-xs bg-white font-medium">
-                                            <option value="Garden &amp; Lawn Care">Garden &amp; Lawn Care</option>
-                                            <option value="Facility Cleaning">Facility Cleaning</option>
-                                            <option value="Property Maintenance">Property Maintenance</option>
-                                            <option value="Site &amp; Rubble Support">Civil &amp; Site Support</option>
+                                        <label class="block font-bold text-slate-700 mb-1">Phone / WhatsApp *</label>
+                                        <input type="text" id="contactInfo" required class="w-full p-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-mcw-green focus:outline-none" placeholder="+27 ...">
+                                    </div>
+                                    <div id="fieldQuoteService">
+                                        <label class="block font-bold text-slate-700 mb-1">Service Requested</label>
+                                        <select id="service" class="w-full p-3 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-mcw-green focus:outline-none">
+                                            <option value="Grass Cutting & Edging">Grass Cutting &amp; Edging</option>
+                                            <option value="Garden Maintenance">Full Garden Maintenance</option>
+                                            <option value="Facility Cleaning">Facility &amp; Office Cleaning</option>
+                                            <option value="Property Repairs">Handyman &amp; Property Repairs</option>
+                                            <option value="Civil & Site Support">Civil &amp; Site Support</option>
+                                        </select>
+                                    </div>
+                                    <div id="fieldFaqTopic" class="hidden">
+                                        <label class="block font-bold text-slate-700 mb-1">Question Topic</label>
+                                        <select id="topic" class="w-full p-3 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-mcw-green focus:outline-none">
+                                            <option value="General Information">General Information</option>
+                                            <option value="Pricing & Quotes">Pricing &amp; Quotes</option>
+                                            <option value="Contract Availability">Contract Availability</option>
+                                            <option value="Partnership">Partnership &amp; Business</option>
                                         </select>
                                     </div>
                                 </div>
 
-                                <div>
-                                    <label id="detailsLabel" class="block text-xs font-bold text-slate-700 uppercase mb-1">Project Details / Message</label>
-                                    <textarea id="details" rows="4" placeholder="Describe what you need..." class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium"></textarea>
+                                <div id="fieldQuoteLocation">
+                                    <label class="block font-bold text-slate-700 mb-1">Project Location / Address</label>
+                                    <input type="text" id="location" class="w-full p-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-mcw-green focus:outline-none" placeholder="Suburb or area in Gauteng">
                                 </div>
 
-                                <button type="submit" id="submitBtn" class="w-full bg-mcw-green hover:bg-mcw-greenhover text-white font-bold py-3.5 rounded-xl text-xs transition-all flex items-center justify-center gap-2 shadow-md">
-                                    <span id="submitBtnText">Submit Request</span>
-                                    <i id="submitSpinner" class="fa-solid fa-spinner fa-spin hidden"></i>
+                                <div id="fieldDetailsContainer">
+                                    <label id="labelDetails" class="block font-bold text-slate-700 mb-1">Project Details &amp; Scope *</label>
+                                    <textarea id="details" rows="4" required class="w-full p-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-mcw-green focus:outline-none" placeholder="Describe your yard size, cleaning requirements, or project details..."></textarea>
+                                </div>
+
+                                <!-- File Upload for Blueprints or Site Photos -->
+                                <div>
+                                    <label class="block font-bold text-slate-700 mb-1">Upload Site Photo / Blueprint / Document (Optional)</label>
+                                    <input type="file" id="fileUpload" class="w-full p-2.5 rounded-xl border border-slate-300 text-xs bg-slate-50 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-mcw-green file:text-white hover:file:bg-mcw-greenhover">
+                                </div>
+
+                                <button type="submit" id="submitBtn" class="w-full bg-mcw-green hover:bg-mcw-greenhover text-white font-bold py-3.5 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+                                    <span id="submitBtnText">Submit Quote Request</span>
+                                    <i class="fa-solid fa-paper-plane text-xs"></i>
                                 </button>
+
+                                <div id="formResponseMessage" class="hidden p-3 rounded-xl text-center text-xs font-semibold"></div>
                             </form>
                         </div>
                     </div>
@@ -545,52 +418,32 @@
 
     </main>
 
-    <!-- MOBILE BOTTOM NAVIGATION -->
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2.5 px-2 flex justify-around text-center text-[10px] font-medium shadow-2xl">
-        <button onclick="switchTab('home')" id="mob-home" class="text-mcw-green font-bold flex flex-col items-center gap-0.5">
-            <i class="fa-solid fa-house text-base"></i> Home
-        </button>
-        <button onclick="switchTab('about')" id="mob-about" class="text-slate-500 flex flex-col items-center gap-0.5">
-            <i class="fa-solid fa-circle-info text-base"></i> About
-        </button>
-        <button onclick="switchTab('estimator')" id="mob-estimator" class="text-slate-500 flex flex-col items-center gap-0.5">
-            <i class="fa-solid fa-calculator text-base"></i> Estimator
-        </button>
-        <button onclick="switchTab('contact')" id="mob-contact" class="text-slate-500 flex flex-col items-center gap-0.5">
-            <i class="fa-solid fa-paper-plane text-base"></i> Contact
-        </button>
-    </nav>
-
     <!-- FOOTER -->
-    <footer class="bg-mcw-dark text-slate-400 text-xs py-8 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
-            <p>&copy; Mazibuko Civil Works (Pty) Ltd. All rights reserved.</p>
-            <p class="text-slate-500">Making things Possible | Soweto, Gauteng</p>
+    <footer class="bg-mcw-dark text-slate-400 py-10 border-t border-slate-800 text-xs mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+            <div>
+                <p class="font-display font-bold text-white text-sm">Mazibuko Civil Works (Pty) Ltd</p>
+                <p class="mt-1">© 2026 MCW. All rights reserved. • <span class="text-mcw-gold italic">Making things Possible</span></p>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="https://wa.me/27698777757" target="_blank" class="hover:text-white transition-colors"><i class="fa-brands fa-whatsapp text-base"></i> WhatsApp</a>
+                <a href="tel:+27698777757" class="hover:text-white transition-colors"><i class="fa-solid fa-phone"></i> Call Us</a>
+            </div>
         </div>
     </footer>
 
-    <!-- INTERACTIVE SCRIPT -->
+    <!-- FRONTEND JAVASCRIPT LOGIC -->
     <script>
+        // REPLACE WITH YOUR PUBLISHED GOOGLE APPS SCRIPT WEB APP URL
+        const APPS_SCRIPT_URL = "YOUR_DEPLOYED_WEB_APP_URL_HERE";
+
         function switchTab(tabId) {
             document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
             
             document.getElementById('view-' + tabId).classList.add('active');
             const navBtn = document.getElementById('nav-' + tabId);
             if (navBtn) navBtn.classList.add('active');
-
-            // Mobile nav highlight
-            ['home', 'about', 'estimator', 'contact'].forEach(id => {
-                const mobEl = document.getElementById('mob-' + id);
-                if (mobEl) {
-                    if (id === tabId) {
-                        mobEl.className = 'text-mcw-green font-bold flex flex-col items-center gap-0.5';
-                    } else {
-                        mobEl.className = 'text-slate-500 flex flex-col items-center gap-0.5';
-                    }
-                }
-            });
-
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -601,130 +454,126 @@
 
             let base = 350;
             if (service === 'garden') base = 550;
-            else if (service === 'cleaning') base = 750;
-            else if (service === 'repairs') base = 600;
+            if (service === 'cleaning') base = 650;
+            if (service === 'repairs') base = 800;
 
-            let sizeMult = 1.0;
-            if (size === 'medium') sizeMult = 1.3;
-            else if (size === 'large') sizeMult = 1.9;
-            else if (size === 'commercial') sizeMult = 3.0;
+            let multiplier = 1.0;
+            if (size === 'medium') multiplier = 1.6;
+            if (size === 'large') multiplier = 2.4;
+            if (size === 'commercial') multiplier = 4.0;
 
-            let disc = freq === 'biweekly' ? 0.90 : freq === 'monthly' ? 0.85 : 1.0;
-            const price = Math.round(base * sizeMult * disc);
+            let total = base * multiplier;
+            if (freq === 'biweekly') total *= 0.9;
+            if (freq === 'monthly') total *= 0.85;
 
-            document.getElementById('estPriceDisplay').textContent = 'R ' + price;
+            document.getElementById('estPriceDisplay').innerText = `R ${Math.round(total)}`;
         }
 
         function applyEstimateToForm() {
-            const price = document.getElementById('estPriceDisplay').textContent;
-            document.getElementById('details').value = "Estimated Price: " + price + "\n" + document.getElementById('details').value;
             switchTab('contact');
+            const serviceMap = {
+                'grass': 'Grass Cutting & Edging',
+                'garden': 'Garden Maintenance',
+                'cleaning': 'Facility Cleaning',
+                'repairs': 'Property Repairs'
+            };
+            const estServ = document.getElementById('estService').value;
+            document.getElementById('service').value = serviceMap[estServ] || 'Grass Cutting & Edging';
         }
 
-        function switchFormType(type) {
-            document.getElementById('submissionType').value = type;
-            const quoteFields = document.getElementById('quoteFields');
-            const toggleQuoteBtn = document.getElementById('toggleQuoteBtn');
-            const toggleFaqBtn = document.getElementById('toggleFaqBtn');
+        function setSubmissionType(type) {
+            document.getElementById('subType').value = type;
+            const qBtn = document.getElementById('typeQuoteBtn');
+            const fBtn = document.getElementById('typeFaqBtn');
 
             if (type === 'quote') {
-                quoteFields.classList.remove('hidden');
-                toggleQuoteBtn.className = "text-xs font-bold px-4 py-2 text-mcw-green border-b-2 border-mcw-green transition-colors";
-                toggleFaqBtn.className = "text-xs font-bold px-4 py-2 text-slate-500 transition-colors";
-                document.getElementById('submitBtnText').textContent = "Submit Quote Request";
+                qBtn.className = "flex-1 py-2 text-xs font-bold rounded-xl bg-mcw-green text-white shadow-sm transition-all";
+                fBtn.className = "flex-1 py-2 text-xs font-bold rounded-xl bg-slate-100 text-slate-700 transition-all";
+                document.getElementById('fieldQuoteService').classList.remove('hidden');
+                document.getElementById('fieldQuoteLocation').classList.remove('hidden');
+                document.getElementById('fieldFaqTopic').classList.add('hidden');
+                document.getElementById('labelDetails').innerText = "Project Details & Scope *";
+                document.getElementById('submitBtnText').innerText = "Submit Quote Request";
             } else {
-                quoteFields.classList.add('hidden');
-                toggleFaqBtn.className = "text-xs font-bold px-4 py-2 text-mcw-green border-b-2 border-mcw-green transition-colors";
-                toggleQuoteBtn.className = "text-xs font-bold px-4 py-2 text-slate-500 transition-colors";
-                document.getElementById('submitBtnText').textContent = "Submit Inquiry";
+                fBtn.className = "flex-1 py-2 text-xs font-bold rounded-xl bg-mcw-green text-white shadow-sm transition-all";
+                qBtn.className = "flex-1 py-2 text-xs font-bold rounded-xl bg-slate-100 text-slate-700 transition-all";
+                document.getElementById('fieldQuoteService').classList.add('hidden');
+                document.getElementById('fieldQuoteLocation').classList.add('hidden');
+                document.getElementById('fieldFaqTopic').classList.remove('hidden');
+                document.getElementById('labelDetails').innerText = "Your Question *";
+                document.getElementById('submitBtnText').innerText = "Submit Inquiry";
             }
-        }
-
-        // When hosted outside Apps Script (e.g. Vercel), submissions go through /api/submit,
-        // which forwards them to the Apps Script URL stored in the project's environment variables.
-        const SUBMIT_ENDPOINT = "/api/submit";
-        const PRODUCTION_ORIGIN = "https://mazibuko-civil-works.vercel.app";
-        const ERROR_MESSAGE = "Error submitting request. Please try again or WhatsApp us on +27 69 877 7757.";
-
-        function showStatus(message, isError) {
-            const alert = document.getElementById('statusAlert');
-            alert.textContent = message;
-            alert.className = isError
-                ? "mb-4 p-3 bg-red-50 border border-red-400 text-red-800 text-xs rounded-xl"
-                : "mb-4 p-3 bg-mcw-greenlight border border-mcw-green text-mcw-dark text-xs rounded-xl";
-            alert.setAttribute('role', isError ? 'alert' : 'status');
-        }
-
-        function clearForm() {
-            const type = document.getElementById('submissionType').value;
-            document.getElementById('unifiedForm').reset();
-            switchFormType(type);
-        }
-
-        function sendSubmission(payload) {
-            if (typeof google !== 'undefined' && google.script && google.script.run) {
-                return new Promise((resolve, reject) => {
-                    google.script.run
-                        .withSuccessHandler(resolve)
-                        .withFailureHandler(reject)
-                        .processFormSubmission(payload);
-                });
-            }
-            const isProduction = window.location.origin === PRODUCTION_ORIGIN;
-            return postTo(SUBMIT_ENDPOINT, payload).catch(err => {
-                if (isProduction) throw err;
-                return postTo(PRODUCTION_ORIGIN + SUBMIT_ENDPOINT, payload);
-            });
-        }
-
-        // text/plain keeps this a "simple" request so no CORS preflight is needed.
-        function postTo(url, payload) {
-            return fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(payload)
-            }).then(async r => {
-                const data = await r.json().catch(() => null);
-                if (!data) throw new Error('Submission endpoint unavailable (' + r.status + ')');
-                return data;
-            });
         }
 
         function handleFormSubmit(e) {
             e.preventDefault();
-            const submitBtn = document.getElementById('submitBtn');
-            const spinner = document.getElementById('submitSpinner');
-            const type = document.getElementById('submissionType').value;
-            const details = document.getElementById('details').value.trim();
+
+            // Honeypot check on frontend
+            if (document.getElementById('website_hp').value) {
+                alert('Submission blocked.');
+                return;
+            }
+
+            const btn = document.getElementById('submitBtn');
+            const msgBox = document.getElementById('formResponseMessage');
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Submitting...`;
+            msgBox.classList.add('hidden');
+
+            const type = document.getElementById('subType').value;
+            const fileInput = document.getElementById('fileUpload');
 
             const payload = {
                 type: type,
-                fullName: document.getElementById('fullName').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                contactInfo: document.getElementById('contactInfo').value.trim(),
-                location: type === 'quote' ? document.getElementById('location').value.trim() : '',
-                service: type === 'quote' ? document.getElementById('serviceSelect').value : '',
-                details: details,
-                question: details
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                contactInfo: document.getElementById('contactInfo').value,
+                service: type === 'quote' ? document.getElementById('service').value : '',
+                topic: type === 'faq' ? document.getElementById('topic').value : '',
+                location: type === 'quote' ? document.getElementById('location').value : '',
+                details: type === 'quote' ? document.getElementById('details').value : '',
+                question: type === 'faq' ? document.getElementById('details').value : '',
+                website_hp: document.getElementById('website_hp').value
             };
 
-            submitBtn.disabled = true;
-            spinner.classList.remove('hidden');
+            const processPayloadAndSend = (fileData = null) => {
+                if (fileData) {
+                    payload.file = fileData;
+                }
 
-            sendSubmission(payload)
-                .then(res => {
-                    if (res && res.status === 'success') {
-                        showStatus("Thank you! Your " + (type === 'quote' ? "quote request" : "inquiry") + " has been received. A confirmation email has been sent to " + payload.email + ".", false);
-                        clearForm();
-                    } else {
-                        showStatus((res && res.message) || ERROR_MESSAGE, true);
-                    }
-                })
-                .catch(() => showStatus(ERROR_MESSAGE, true))
-                .finally(() => {
-                    submitBtn.disabled = false;
-                    spinner.classList.add('hidden');
+                // Submitting via fetch to doPost endpoint
+                fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                }).then(() => {
+                    msgBox.className = "p-3 rounded-xl text-center text-xs font-semibold bg-emerald-100 text-emerald-800";
+                    msgBox.innerText = type === 'quote' ? "Success! Quote recorded, estimate emailed, and team notified." : "Success! Inquiry recorded and team notified.";
+                    msgBox.classList.remove('hidden');
+                    document.getElementById('mcwForm').reset();
+                }).catch(err => {
+                    msgBox.className = "p-3 rounded-xl text-center text-xs font-semibold bg-rose-100 text-rose-800";
+                    msgBox.innerText = "Error submitting form. Please try again or WhatsApp us directly.";
+                    msgBox.classList.remove('hidden');
+                }).finally(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = `<span>Submit ${type === 'quote' ? 'Quote Request' : 'Inquiry'}</span> <i class="fa-solid fa-paper-plane text-xs"></i>`;
                 });
+            };
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(uploadEvent) {
+                    processPayloadAndSend({
+                        name: fileInput.files[0].name,
+                        data: uploadEvent.target.result
+                    });
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                processPayloadAndSend();
+            }
         }
     </script>
 </body>
