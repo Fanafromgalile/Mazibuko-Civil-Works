@@ -3,13 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mazibuko Civil Works (MCW) - Essential Property & Site Services</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Mazibuko Civil Works (MCW) - Property Maintenance &amp; Civil Site Support</title>
+    <meta name="description" content="Reliable lawn mowing, facility cleaning, handyman maintenance, and civil rubble removal across Soweto and Gauteng. Free callout within 25 km.">
+
+    <!-- Open Graph / WhatsApp Link Preview Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Mazibuko Civil Works (MCW)">
+    <meta property="og:locale" content="en_ZA">
+    <meta property="og:title" content="Mazibuko Civil Works (MCW) | Property Maintenance &amp; Civil Site Support">
+    <meta property="og:description" content="Quality lawn care, facility cleaning, property repairs, and site rubble removal in Soweto &amp; Gauteng. Get an instant online price estimate.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Preconnect & Preload Critical Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -33,12 +45,21 @@
             }
         }
     </script>
+
+    <!-- Critical Base CSS (Prevents Layout Flash Before Tailwind Initializes) -->
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8faf7;
+            color: #1e293b;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
         h1, h2, h3, h4, .font-display { font-family: 'Outfit', sans-serif; }
 
         .tab-view { display: none; }
         .tab-view.active { display: block; }
+        .hidden { display: none; }
 
         .nav-btn.active {
             color: #487138;
@@ -47,8 +68,9 @@
         }
 
         .hero-bg {
-            background: linear-gradient(135deg, rgba(20, 30, 17, 0.94) 0%, rgba(29, 42, 25, 0.90) 100%),
-                        url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1920&auto=format&fit=crop');
+            background-color: #141e11;
+            background-image: linear-gradient(135deg, rgba(20, 30, 17, 0.94) 0%, rgba(29, 42, 25, 0.90) 100%),
+                              url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1920&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
         }
@@ -95,7 +117,7 @@
     <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <button onclick="switchTab('home')" class="flex items-center gap-3 text-left focus:outline-none group">
+                <button type="button" data-tab="home" class="flex items-center gap-3 text-left focus:outline-none group">
                     <span class="font-display font-black text-3xl text-mcw-green tracking-tight group-hover:scale-105 transition-transform">MCW</span>
                     <div class="flex flex-col border-l-2 border-slate-200 pl-3">
                         <span class="font-display font-bold text-xs sm:text-sm text-slate-900 leading-tight">MAZIBUKO CIVIL WORKS</span>
@@ -104,13 +126,13 @@
                 </button>
 
                 <nav class="hidden md:flex space-x-6 text-sm font-medium">
-                    <button id="nav-home" onclick="switchTab('home')" class="nav-btn active py-7 transition-colors">Home &amp; Services</button>
-                    <button id="nav-about" onclick="switchTab('about')" class="nav-btn py-7 transition-colors">About &amp; Roadmap</button>
-                    <button id="nav-estimator" onclick="switchTab('estimator')" class="nav-btn py-7 transition-colors">Price Estimator</button>
-                    <button id="nav-contact" onclick="switchTab('contact')" class="nav-btn py-7 transition-colors">Contact &amp; Quotes</button>
+                    <button type="button" id="nav-home" data-tab="home" class="nav-btn active py-7 transition-colors">Home &amp; Services</button>
+                    <button type="button" id="nav-about" data-tab="about" class="nav-btn py-7 transition-colors">About &amp; Roadmap</button>
+                    <button type="button" id="nav-estimator" data-tab="estimator" class="nav-btn py-7 transition-colors">Price Estimator</button>
+                    <button type="button" id="nav-contact" data-tab="contact" class="nav-btn py-7 transition-colors">Contact &amp; Quotes</button>
                 </nav>
 
-                <button onclick="switchTab('contact')" class="hidden sm:inline-flex bg-mcw-green hover:bg-mcw-greenhover text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-all items-center gap-2">
+                <button type="button" data-tab="contact" class="hidden sm:inline-flex bg-mcw-green hover:bg-mcw-greenhover text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-all items-center gap-2">
                     <span>Get Free Quote</span>
                     <i class="fa-solid fa-arrow-right text-xs"></i>
                 </button>
@@ -136,11 +158,11 @@
                                 Mazibuko Civil Works (Pty) Ltd offers quality lawn mowing, facility cleaning, property repairs, and civil labor support for homes and businesses.
                             </p>
                             <div class="flex flex-col sm:flex-row gap-4 pt-2 justify-center lg:justify-start">
-                                <button onclick="switchTab('contact')" class="bg-mcw-green hover:bg-mcw-greenhover text-white font-bold px-7 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all inline-flex items-center justify-center gap-2">
+                                <button type="button" data-tab="contact" class="bg-mcw-green hover:bg-mcw-greenhover text-white font-bold px-7 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all inline-flex items-center justify-center gap-2">
                                     <span>Request a Quote Now</span>
                                     <i class="fa-solid fa-paper-plane text-xs"></i>
                                 </button>
-                                <button onclick="switchTab('estimator')" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold px-6 py-3.5 rounded-xl transition-all">
+                                <button type="button" data-tab="estimator" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold px-6 py-3.5 rounded-xl transition-all">
                                     Calculate Estimated Price
                                 </button>
                             </div>
@@ -175,7 +197,7 @@
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div class="bg-mcw-bglight p-6 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-sm pop-on-hover cursor-pointer group" onclick="selectServiceAndBook('Garden & Lawn Care')">
+                        <div data-book-service="Garden & Lawn Care" role="button" tabindex="0" class="bg-mcw-bglight p-6 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-sm pop-on-hover cursor-pointer group">
                             <div>
                                 <div class="w-12 h-12 bg-mcw-greenlight text-mcw-green rounded-xl flex items-center justify-center text-xl mb-4 transition-transform group-hover:scale-110">
                                     <i class="fa-solid fa-scissors"></i>
@@ -186,7 +208,7 @@
                             <span class="text-xs font-bold text-mcw-green flex items-center gap-1 group-hover:translate-x-1 transition-transform">Request Service <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
                         </div>
 
-                        <div class="bg-mcw-bglight p-6 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-sm pop-on-hover cursor-pointer group" onclick="selectServiceAndBook('Facility Cleaning')">
+                        <div data-book-service="Facility Cleaning" role="button" tabindex="0" class="bg-mcw-bglight p-6 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-sm pop-on-hover cursor-pointer group">
                             <div>
                                 <div class="w-12 h-12 bg-amber-50 text-mcw-gold rounded-xl flex items-center justify-center text-xl mb-4 transition-transform group-hover:scale-110">
                                     <i class="fa-solid fa-broom"></i>
@@ -197,7 +219,7 @@
                             <span class="text-xs font-bold text-mcw-green flex items-center gap-1 group-hover:translate-x-1 transition-transform">Request Service <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
                         </div>
 
-                        <div class="bg-mcw-bglight p-6 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-sm pop-on-hover cursor-pointer group" onclick="selectServiceAndBook('Property Maintenance')">
+                        <div data-book-service="Property Maintenance" role="button" tabindex="0" class="bg-mcw-bglight p-6 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-sm pop-on-hover cursor-pointer group">
                             <div>
                                 <div class="w-12 h-12 bg-mcw-greenlight text-mcw-green rounded-xl flex items-center justify-center text-xl mb-4 transition-transform group-hover:scale-110">
                                     <i class="fa-solid fa-screwdriver-wrench"></i>
@@ -208,7 +230,7 @@
                             <span class="text-xs font-bold text-mcw-green flex items-center gap-1 group-hover:translate-x-1 transition-transform">Request Service <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
                         </div>
 
-                        <div class="bg-mcw-bglight p-6 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-sm pop-on-hover cursor-pointer group" onclick="selectServiceAndBook('Site & Rubble Support')">
+                        <div data-book-service="Site & Rubble Support" role="button" tabindex="0" class="bg-mcw-bglight p-6 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-sm pop-on-hover cursor-pointer group">
                             <div>
                                 <div class="w-12 h-12 bg-slate-200 text-slate-800 rounded-xl flex items-center justify-center text-xl mb-4 transition-transform group-hover:scale-110">
                                     <i class="fa-solid fa-truck-ramp-box"></i>
@@ -369,23 +391,24 @@
                     <div class="text-center mb-10">
                         <span class="text-xs font-bold uppercase tracking-widest text-mcw-gold">Instant Estimate</span>
                         <h2 class="text-3xl font-display font-extrabold text-slate-900 mt-1">Service Price Estimator</h2>
-                        <p class="text-xs text-slate-600 mt-2">Get a quick estimate in South African Rand (ZAR) for your project.</p>
+                        <p class="text-xs text-slate-600 mt-2">Get an instant estimate in South African Rand (ZAR) including optional suburb callout calculation.</p>
                     </div>
 
                     <div class="bg-mcw-bglight rounded-3xl p-6 sm:p-8 border border-slate-200 grid grid-cols-1 md:grid-cols-12 gap-8 items-center shadow-sm">
                         <div class="md:col-span-7 space-y-4">
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">1. Select Service</label>
-                                <select id="estService" onchange="calculateEstimate()" class="w-full p-3 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white font-medium">
+                                <label for="estService" class="block text-xs font-bold text-slate-700 uppercase mb-1">1. Select Service</label>
+                                <select id="estService" class="w-full p-3 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white font-medium">
                                     <option value="grass">Grass Cutting &amp; Edging</option>
                                     <option value="garden">Full Garden Maintenance</option>
                                     <option value="cleaning">Property &amp; Office Cleaning</option>
                                     <option value="repairs">Handyman Repairs</option>
+                                    <option value="rubble">Civil &amp; Rubble Removal</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">2. Property Size</label>
-                                <select id="estSize" onchange="calculateEstimate()" class="w-full p-3 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white font-medium">
+                                <label id="estSizeLabel" for="estSize" class="block text-xs font-bold text-slate-700 uppercase mb-1">2. Property Size</label>
+                                <select id="estSize" class="w-full p-3 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white font-medium">
                                     <option value="small">Small Yard (~100–300 m²)</option>
                                     <option value="medium">Medium Yard (~300–700 m²)</option>
                                     <option value="large">Large Yard (~700–1500 m²)</option>
@@ -393,25 +416,49 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">3. Frequency</label>
-                                <select id="estFreq" onchange="calculateEstimate()" class="w-full p-3 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white font-medium">
+                                <label for="estFreq" class="block text-xs font-bold text-slate-700 uppercase mb-1">3. Frequency</label>
+                                <select id="estFreq" class="w-full p-3 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white font-medium">
                                     <option value="once">One-Off Job</option>
                                     <option value="biweekly">Bi-Weekly (10% Discount)</option>
                                     <option value="monthly">Monthly (15% Discount)</option>
                                 </select>
                             </div>
+                            <div>
+                                <label for="estSuburb" class="block text-xs font-bold text-slate-700 uppercase mb-1">
+                                    4. Project Suburb <span class="text-[10px] font-normal text-slate-500 lowercase">(optional — check live callout fee)</span>
+                                </label>
+                                <div class="flex gap-2">
+                                    <input type="text" id="estSuburb" placeholder="e.g. Diepkloof, Sandton, Midrand" class="flex-1 p-3 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white font-medium">
+                                    <button type="button" id="checkCalloutBtn" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-4 py-3 rounded-xl transition-all shrink-0 flex items-center gap-1.5">
+                                        <span id="checkCalloutText">Check</span>
+                                        <i id="checkCalloutSpinner" class="fa-solid fa-spinner fa-spin hidden"></i>
+                                    </button>
+                                </div>
+                                <p id="estCalloutStatus" class="text-[11px] text-slate-500 mt-1.5">Free callout within 25 km of our Soweto base.</p>
+                            </div>
                         </div>
 
-                        <div class="md:col-span-5 bg-mcw-dark text-white p-6 rounded-2xl text-center space-y-4 shadow-xl pop-on-hover">
-                            <span class="text-xs uppercase text-mcw-gold font-bold tracking-wider">Estimated Starting Price</span>
+                        <div class="md:col-span-5 bg-mcw-dark text-white p-6 rounded-2xl text-center space-y-3.5 shadow-xl pop-on-hover">
+                            <span class="text-xs uppercase text-mcw-gold font-bold tracking-wider">Estimated Starting Total</span>
                             <div id="estPriceDisplay" class="text-4xl sm:text-5xl font-display font-black text-white">R 350</div>
+
+                            <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-3 text-left text-[11px] space-y-1">
+                                <div class="flex justify-between text-slate-300">
+                                    <span>Base Service Estimate:</span>
+                                    <span id="estBaseBreakdown" class="font-bold text-white">R 350</span>
+                                </div>
+                                <div class="flex justify-between text-slate-300">
+                                    <span>Callout / Travel Fee:</span>
+                                    <span id="estCalloutBreakdown" class="font-bold text-mcw-gold">R 0 (≤ 25 km)</span>
+                                </div>
+                            </div>
+
                             <p id="estPriceNote" class="text-[11px] text-slate-300 italic">*Includes lawn cutting, edging, and trimmings cleanup.</p>
-                            <p class="text-[10px] text-slate-400">Free callout within 25 km of Soweto; distance callout calculated automatically on quote request.</p>
                             <div class="space-y-2.5 pt-1">
-                                <button onclick="applyEstimateToForm()" class="w-full bg-mcw-green hover:bg-mcw-greenhover text-white text-xs font-bold py-3.5 rounded-xl transition-all shadow-md">
+                                <button type="button" id="applyEstimateBtn" class="w-full bg-mcw-green hover:bg-mcw-greenhover text-white text-xs font-bold py-3.5 rounded-xl transition-all shadow-md">
                                     Apply Estimate to Form
                                 </button>
-                                <button onclick="sendEstimateViaWhatsApp()" class="w-full bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold py-2.5 rounded-xl transition-all flex items-center justify-center gap-1.5">
+                                <button type="button" id="whatsappEstimateBtn" class="w-full bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold py-2.5 rounded-xl transition-all flex items-center justify-center gap-1.5">
                                     <i class="fa-brands fa-whatsapp"></i> Send Estimate via WhatsApp
                                 </button>
                             </div>
@@ -421,7 +468,7 @@
             </section>
         </div>
 
-        <!-- CONTACT & QUOTES VIEW -->
+        <!-- CONTACT, QUOTES & TRACKING VIEW -->
         <div id="view-contact" class="tab-view">
             <section class="py-16 bg-mcw-bglight">
                 <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -429,7 +476,7 @@
                         <div class="lg:col-span-5 bg-mcw-dark text-white p-8 flex flex-col justify-between">
                             <div class="space-y-6">
                                 <h2 class="text-2xl font-display font-bold text-white">Get In Touch</h2>
-                                <p class="text-xs text-slate-300 leading-relaxed">Fill out the form or reach out directly for immediate assistance or site bookings.</p>
+                                <p class="text-xs text-slate-300 leading-relaxed">Fill out the form, track an existing quote reference, or reach out directly for immediate assistance.</p>
 
                                 <div class="space-y-4 text-xs">
                                     <div class="flex items-center gap-3">
@@ -467,49 +514,72 @@
                         </div>
 
                         <div class="lg:col-span-7 p-6 sm:p-8">
-                            <div class="flex border-b border-slate-200 mb-6 pb-2">
-                                <button type="button" id="toggleQuoteBtn" onclick="switchFormType('quote')" class="text-xs font-bold px-4 py-2 text-mcw-green border-b-2 border-mcw-green transition-colors">Request a Quote</button>
-                                <button type="button" id="toggleFaqBtn" onclick="switchFormType('faq')" class="text-xs font-bold px-4 py-2 text-slate-500 transition-colors">General Inquiry</button>
+                            <!-- Mode Switcher: Request a Quote | General Inquiry | Track My Quote -->
+                            <div class="flex flex-wrap border-b border-slate-200 mb-6 pb-2 gap-1">
+                                <button type="button" id="toggleQuoteBtn" class="text-xs font-bold px-3.5 py-2 text-mcw-green border-b-2 border-mcw-green transition-colors">Request a Quote</button>
+                                <button type="button" id="toggleFaqBtn" class="text-xs font-bold px-3.5 py-2 text-slate-500 transition-colors">General Inquiry</button>
+                                <button type="button" id="toggleTrackBtn" class="text-xs font-bold px-3.5 py-2 text-slate-500 transition-colors flex items-center gap-1.5">
+                                    <i class="fa-solid fa-magnifying-glass text-[10px]"></i> Track My Quote
+                                </button>
                             </div>
 
                             <div id="statusAlert" class="hidden mb-4 p-3.5 border text-mcw-dark text-xs rounded-xl"></div>
 
-                            <form id="unifiedForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                            <!-- QUOTE & INQUIRY FORM -->
+                            <form id="unifiedForm" class="space-y-4">
                                 <input type="hidden" id="submissionType" value="quote">
                                 <!-- Anti-spam honeypot trap (matches backend check) -->
                                 <input type="text" id="website_hp" name="website_hp" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Full Name *</label>
-                                        <input type="text" id="fullName" required placeholder="e.g. Thabo Mokoena" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
+                                        <label for="fullName" class="block text-xs font-bold text-slate-700 uppercase mb-1">Full Name *</label>
+                                        <input type="text" id="fullName" required maxlength="100" placeholder="e.g. Thabo Mokoena" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
                                     </div>
                                     <div>
-                                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Email Address * <span class="text-[10px] font-normal text-slate-500 lowercase">(for PDF quote)</span></label>
-                                        <input type="email" id="email" required placeholder="you@example.com" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
+                                        <label for="email" class="block text-xs font-bold text-slate-700 uppercase mb-1">Email Address * <span class="text-[10px] font-normal text-slate-500 lowercase">(for PDF quote)</span></label>
+                                        <input type="email" id="email" required maxlength="120" placeholder="you@example.com" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
                                     </div>
                                 </div>
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Phone / WhatsApp Number *</label>
-                                        <input type="tel" id="contactInfo" required placeholder="e.g. 082 123 4567" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
+                                        <label for="contactInfo" class="block text-xs font-bold text-slate-700 uppercase mb-1">Phone / WhatsApp Number *</label>
+                                        <input type="tel" id="contactInfo" required maxlength="40" placeholder="e.g. 082 123 4567" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
                                     </div>
                                     <div id="locationWrapper">
-                                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Suburb / Site Location *</label>
-                                        <input type="text" id="location" required placeholder="e.g. Diepkloof, Soweto or Sandton" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
+                                        <label for="location" class="block text-xs font-bold text-slate-700 uppercase mb-1">Suburb / Site Location *</label>
+                                        <input type="text" id="location" required maxlength="150" placeholder="e.g. Diepkloof, Soweto or Sandton" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
                                     </div>
                                 </div>
 
                                 <div id="quoteFields" class="space-y-4">
                                     <div>
-                                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Required Service</label>
+                                        <label for="serviceSelect" class="block text-xs font-bold text-slate-700 uppercase mb-1">Required Service</label>
                                         <select id="serviceSelect" class="w-full p-3 rounded-xl border border-slate-300 text-xs bg-white font-medium">
                                             <option value="Garden & Lawn Care">Garden &amp; Lawn Care</option>
                                             <option value="Facility Cleaning">Facility Cleaning</option>
                                             <option value="Property Maintenance">Property Maintenance</option>
                                             <option value="Site & Rubble Support">Civil &amp; Site Support</option>
                                         </select>
+                                    </div>
+
+                                    <!-- Preferred Date & Urgency Triage -->
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label for="preferredDate" class="block text-xs font-bold text-slate-700 uppercase mb-1">
+                                                Preferred Date <span class="text-[10px] font-normal text-slate-500 lowercase">(optional)</span>
+                                            </label>
+                                            <input type="date" id="preferredDate" class="w-full p-3 rounded-xl border border-slate-300 text-xs bg-white font-medium">
+                                        </div>
+                                        <div>
+                                            <label for="urgencySelect" class="block text-xs font-bold text-slate-700 uppercase mb-1">Urgency / Timeline</label>
+                                            <select id="urgencySelect" class="w-full p-3 rounded-xl border border-slate-300 text-xs bg-white font-medium">
+                                                <option value="Standard / Flexible">Standard / Flexible</option>
+                                                <option value="This Week">This Week</option>
+                                                <option value="Urgent / Same-Day">Urgent / Same-Day</option>
+                                            </select>
+                                        </div>
                                     </div>
 
                                     <!-- Client-Side Site Photo Compression Upload -->
@@ -520,9 +590,9 @@
                                         <label for="siteAttachment" id="uploadDropzone" class="flex flex-col items-center justify-center w-full p-4 border-2 border-dashed border-slate-300 hover:border-mcw-green rounded-xl cursor-pointer bg-mcw-bglight/60 hover:bg-mcw-greenlight/40 transition-colors">
                                             <div class="flex items-center gap-2 text-xs text-slate-600 font-medium">
                                                 <i class="fa-solid fa-camera text-mcw-green text-base"></i>
-                                                <span>Click to upload a site photo (JPG, PNG) or PDF spec</span>
+                                                <span>Click to upload a site photo (JPG, PNG) or PDF spec (max 2 MB)</span>
                                             </div>
-                                            <input type="file" id="siteAttachment" accept="image/*,application/pdf" onchange="handleFileAttachment(event)" class="hidden">
+                                            <input type="file" id="siteAttachment" accept="image/jpeg,image/png,image/webp,application/pdf" class="hidden">
                                         </label>
 
                                         <div id="attachmentPreview" class="hidden mt-2.5 p-3 bg-mcw-greenlight border border-mcw-green/30 rounded-xl flex items-center justify-between gap-3">
@@ -536,7 +606,7 @@
                                                     <p id="attachmentMeta" class="text-[11px] text-mcw-green font-medium"></p>
                                                 </div>
                                             </div>
-                                            <button type="button" onclick="clearAttachment()" class="text-xs text-slate-500 hover:text-red-600 px-2 py-1 rounded-lg" title="Remove file">
+                                            <button type="button" id="clearAttachmentBtn" class="text-xs text-slate-500 hover:text-red-600 px-2 py-1 rounded-lg" title="Remove file">
                                                 <i class="fa-solid fa-xmark"></i>
                                             </button>
                                         </div>
@@ -544,7 +614,7 @@
                                 </div>
 
                                 <div id="faqTopicField" class="hidden">
-                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Inquiry Topic</label>
+                                    <label for="faqTopicSelect" class="block text-xs font-bold text-slate-700 uppercase mb-1">Inquiry Topic</label>
                                     <select id="faqTopicSelect" class="w-full p-3 rounded-xl border border-slate-300 text-xs bg-white font-medium">
                                         <option value="Service Availability & Areas">Service Availability &amp; Areas</option>
                                         <option value="Pricing & Contracts">Pricing &amp; Monthly Contracts</option>
@@ -554,8 +624,8 @@
                                 </div>
 
                                 <div>
-                                    <label id="detailsLabel" class="block text-xs font-bold text-slate-700 uppercase mb-1">Project Details / Message *</label>
-                                    <textarea id="details" rows="4" required placeholder="Describe the work needed, approximate yard/site size, or preferred dates..." class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium"></textarea>
+                                    <label for="details" id="detailsLabel" class="block text-xs font-bold text-slate-700 uppercase mb-1">Project Details / Message *</label>
+                                    <textarea id="details" rows="4" required maxlength="3000" placeholder="Describe the work needed, approximate yard/site size, or preferred dates..." class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium"></textarea>
                                 </div>
 
                                 <button type="submit" id="submitBtn" class="w-full bg-mcw-green hover:bg-mcw-greenhover text-white font-bold py-3.5 rounded-xl text-xs transition-all flex items-center justify-center gap-2 shadow-md">
@@ -563,6 +633,57 @@
                                     <i id="submitSpinner" class="fa-solid fa-spinner fa-spin hidden"></i>
                                 </button>
                             </form>
+
+                            <!-- SELF-SERVICE QUOTE STATUS TRACKER PANEL -->
+                            <div id="trackQuotePanel" class="hidden space-y-4">
+                                <div class="bg-mcw-bglight p-4 rounded-2xl border border-slate-200 text-xs text-slate-600">
+                                    Enter your <strong>Quote Reference ID</strong> (found in your confirmation email or PDF) along with the <strong>email address or phone number</strong> you submitted to view live progress.
+                                </div>
+
+                                <form id="trackQuoteForm" class="space-y-4">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label for="trackRefId" class="block text-xs font-bold text-slate-700 uppercase mb-1">Reference ID *</label>
+                                            <input type="text" id="trackRefId" required maxlength="20" placeholder="e.g. MCW-2026-0101" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium uppercase">
+                                        </div>
+                                        <div>
+                                            <label for="trackVerification" class="block text-xs font-bold text-slate-700 uppercase mb-1">Email or Phone Number *</label>
+                                            <input type="text" id="trackVerification" required maxlength="120" placeholder="e.g. you@example.com or 0821234567" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-medium">
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" id="trackBtn" class="w-full bg-mcw-dark hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl text-xs transition-all flex items-center justify-center gap-2 shadow-md">
+                                        <span id="trackBtnText">Check Quote Status</span>
+                                        <i id="trackSpinner" class="fa-solid fa-spinner fa-spin hidden"></i>
+                                    </button>
+                                </form>
+
+                                <div id="trackResultCard" class="hidden bg-mcw-bglight border border-slate-200 rounded-2xl p-5 space-y-3 text-xs">
+                                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3">
+                                        <div>
+                                            <span class="text-[10px] uppercase tracking-wider text-slate-500 font-bold block">Reference ID</span>
+                                            <span id="resRefId" class="font-display font-extrabold text-base text-slate-900"></span>
+                                        </div>
+                                        <span id="resStatusBadge" class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-mcw-greenlight text-mcw-green border border-mcw-green/30"></span>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-slate-700">
+                                        <div><span class="text-slate-500">Client:</span> <strong id="resClientName"></strong></div>
+                                        <div><span class="text-slate-500">Submitted:</span> <strong id="resSubmittedDate"></strong></div>
+                                        <div><span class="text-slate-500">Service:</span> <strong id="resService"></strong></div>
+                                        <div><span class="text-slate-500">Location:</span> <strong id="resLocation"></strong></div>
+                                        <div><span class="text-slate-500">Preferred Date:</span> <strong id="resPreferredDate"></strong></div>
+                                        <div><span class="text-slate-500">Priority:</span> <strong id="resUrgency"></strong></div>
+                                        <div class="sm:col-span-2"><span class="text-slate-500">Callout Fee Tier:</span> <strong id="resCalloutFee"></strong></div>
+                                    </div>
+
+                                    <div class="pt-2">
+                                        <a id="resWhatsappLink" href="https://wa.me/27698777757" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl transition-all">
+                                            <i class="fa-brands fa-whatsapp"></i> Follow Up on WhatsApp
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -573,16 +694,16 @@
 
     <!-- Mobile Bottom Navigation -->
     <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2.5 px-2 flex justify-around text-center text-[10px] font-medium shadow-2xl">
-        <button onclick="switchTab('home')" id="mob-home" class="text-mcw-green font-bold flex flex-col items-center gap-0.5">
+        <button type="button" data-tab="home" id="mob-home" class="text-mcw-green font-bold flex flex-col items-center gap-0.5">
             <i class="fa-solid fa-house text-base"></i> Home
         </button>
-        <button onclick="switchTab('about')" id="mob-about" class="text-slate-500 flex flex-col items-center gap-0.5">
+        <button type="button" data-tab="about" id="mob-about" class="text-slate-500 flex flex-col items-center gap-0.5">
             <i class="fa-solid fa-circle-info text-base"></i> About
         </button>
-        <button onclick="switchTab('estimator')" id="mob-estimator" class="text-slate-500 flex flex-col items-center gap-0.5">
+        <button type="button" data-tab="estimator" id="mob-estimator" class="text-slate-500 flex flex-col items-center gap-0.5">
             <i class="fa-solid fa-calculator text-base"></i> Estimator
         </button>
-        <button onclick="switchTab('contact')" id="mob-contact" class="text-slate-500 flex flex-col items-center gap-0.5">
+        <button type="button" data-tab="contact" id="mob-contact" class="text-slate-500 flex flex-col items-center gap-0.5">
             <i class="fa-solid fa-paper-plane text-base"></i> Contact
         </button>
     </nav>
@@ -596,345 +717,737 @@
     </footer>
 
     <script>
-        let compressedFilePayload = null;
+        (function () {
+            'use strict';
 
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-
-            const view = document.getElementById('view-' + tabId);
-            if (view) view.classList.add('active');
-
-            const navBtn = document.getElementById('nav-' + tabId);
-            if (navBtn) navBtn.classList.add('active');
-
-            ['home', 'about', 'estimator', 'contact'].forEach(id => {
-                const mobEl = document.getElementById('mob-' + id);
-                if (mobEl) {
-                    mobEl.className = id === tabId
-                        ? 'text-mcw-green font-bold flex flex-col items-center gap-0.5'
-                        : 'text-slate-500 flex flex-col items-center gap-0.5';
-                }
-            });
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function selectServiceAndBook(serviceName) {
-            switchFormType('quote');
-            const serviceSelect = document.getElementById('serviceSelect');
-            if (serviceSelect) {
-                serviceSelect.value = serviceName;
-            }
-            switchTab('contact');
-        }
-
-        function calculateEstimate() {
-            const service = document.getElementById('estService').value;
-            const size = document.getElementById('estSize').value;
-            const freq = document.getElementById('estFreq').value;
-
-            let base = 350;
-            let note = '*Includes lawn cutting, edging, and trimmings cleanup.';
-
-            if (service === 'garden') {
-                base = 550;
-                note = '*Includes lawn care, hedge trimming, weeding, and garden refuse removal.';
-            } else if (service === 'cleaning') {
-                base = 750;
-                note = '*Includes deep sweeping, mopping, sanitation, and surface wipe-down.';
-            } else if (service === 'repairs') {
-                base = 600;
-                note = '*Estimated labor callout for general handyman fixes (materials quoted on inspection).';
-            }
-
-            let sizeMult = 1.0;
-            if (size === 'medium') sizeMult = 1.3;
-            else if (size === 'large') sizeMult = 1.9;
-            else if (size === 'commercial') sizeMult = 3.0;
-
-            const disc = freq === 'biweekly' ? 0.90 : freq === 'monthly' ? 0.85 : 1.0;
-            const price = Math.round(base * sizeMult * disc);
-
-            document.getElementById('estPriceDisplay').textContent = 'R ' + price;
-            document.getElementById('estPriceNote').textContent = note;
-        }
-
-        function applyEstimateToForm() {
-            const estService = document.getElementById('estService').value;
-            const estSizeText = document.getElementById('estSize').selectedOptions[0].text;
-            const estFreqText = document.getElementById('estFreq').selectedOptions[0].text;
-            const price = document.getElementById('estPriceDisplay').textContent;
-
-            const serviceMap = {
-                grass: 'Garden & Lawn Care',
-                garden: 'Garden & Lawn Care',
-                cleaning: 'Facility Cleaning',
-                repairs: 'Property Maintenance'
+            // Optional: Paste your deployed Google Apps Script Web App URL here ONLY if hosting this HTML on an external domain
+            const FALLBACK_WEB_APP_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
+            let compressedFilePayload = null;
+            let estimatorState = {
+                basePrice: 350,
+                calloutFee: 0,
+                totalPrice: 350,
+                suburb: '',
+                distanceText: '',
+                calloutVerified: false
             };
 
-            switchFormType('quote');
+            function switchTab(tabId) {
+                document.querySelectorAll('.tab-view').forEach(function (el) {
+                    el.classList.remove('active');
+                });
+                document.querySelectorAll('.nav-btn').forEach(function (el) {
+                    el.classList.remove('active');
+                });
 
-            const serviceSelect = document.getElementById('serviceSelect');
-            if (serviceSelect && serviceMap[estService]) {
-                serviceSelect.value = serviceMap[estService];
+                const view = document.getElementById('view-' + tabId);
+                if (view) view.classList.add('active');
+
+                const navBtn = document.getElementById('nav-' + tabId);
+                if (navBtn) navBtn.classList.add('active');
+
+                ['home', 'about', 'estimator', 'contact'].forEach(function (id) {
+                    const mobEl = document.getElementById('mob-' + id);
+                    if (mobEl) {
+                        mobEl.className = id === tabId
+                            ? 'text-mcw-green font-bold flex flex-col items-center gap-0.5'
+                            : 'text-slate-500 flex flex-col items-center gap-0.5';
+                    }
+                });
+
+                try {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } catch (err) {
+                    window.scrollTo(0, 0);
+                }
             }
 
-            const details = document.getElementById('details');
-            if (details) {
-                const summaryLine = `Online Estimate: ${price} (${estSizeText} | ${estFreqText})`;
-                details.value = details.value
-                    ? `${summaryLine}\n${details.value}`
-                    : `${summaryLine}\nAdditional project notes: `;
+            function selectServiceAndBook(serviceName) {
+                switchFormType('quote');
+                const serviceSelect = document.getElementById('serviceSelect');
+                if (serviceSelect) {
+                    serviceSelect.value = serviceName;
+                }
+                switchTab('contact');
             }
 
-            switchTab('contact');
-        }
+            function updateEstimatorSizeLabels(service) {
+                const sizeLabel = document.getElementById('estSizeLabel');
+                const sizeSelect = document.getElementById('estSize');
+                if (!sizeLabel || !sizeSelect) return;
 
-        function sendEstimateViaWhatsApp() {
-            const serviceText = document.getElementById('estService').selectedOptions[0].text;
-            const sizeText = document.getElementById('estSize').selectedOptions[0].text;
-            const freqText = document.getElementById('estFreq').selectedOptions[0].text;
-            const price = document.getElementById('estPriceDisplay').textContent;
-
-            const msg = `Hi MCW, I used your online price estimator:\n• Service: ${serviceText}\n• Size: ${sizeText}\n• Frequency: ${freqText}\n• Estimated Starting Price: ${price}\n\nI would like to book or confirm a quote.`;
-            window.open(`https://wa.me/27698777757?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
-        }
-
-        function switchFormType(type) {
-            document.getElementById('submissionType').value = type;
-            const quoteFields = document.getElementById('quoteFields');
-            const faqTopicField = document.getElementById('faqTopicField');
-            const locationWrapper = document.getElementById('locationWrapper');
-            const locationInput = document.getElementById('location');
-            const toggleQuoteBtn = document.getElementById('toggleQuoteBtn');
-            const toggleFaqBtn = document.getElementById('toggleFaqBtn');
-            const detailsLabel = document.getElementById('detailsLabel');
-            const details = document.getElementById('details');
-
-            if (type === 'quote') {
-                quoteFields.classList.remove('hidden');
-                faqTopicField.classList.add('hidden');
-                locationWrapper.classList.remove('hidden');
-                locationInput.required = true;
-                toggleQuoteBtn.className = 'text-xs font-bold px-4 py-2 text-mcw-green border-b-2 border-mcw-green transition-colors';
-                toggleFaqBtn.className = 'text-xs font-bold px-4 py-2 text-slate-500 transition-colors';
-                document.getElementById('submitBtnText').textContent = 'Submit Quote Request';
-                detailsLabel.textContent = 'Project Details / Message *';
-                details.placeholder = 'Describe the work needed, approximate yard/site size, or preferred dates...';
-            } else {
-                quoteFields.classList.add('hidden');
-                faqTopicField.classList.remove('hidden');
-                locationWrapper.classList.add('hidden');
-                locationInput.required = false;
-                toggleFaqBtn.className = 'text-xs font-bold px-4 py-2 text-mcw-green border-b-2 border-mcw-green transition-colors';
-                toggleQuoteBtn.className = 'text-xs font-bold px-4 py-2 text-slate-500 transition-colors';
-                document.getElementById('submitBtnText').textContent = 'Submit Inquiry';
-                detailsLabel.textContent = 'Your Question *';
-                details.placeholder = 'Ask your question here...';
+                if (service === 'rubble') {
+                    sizeLabel.textContent = '2. Estimated Load Volume';
+                    sizeSelect.options[0].text = '1 Bakkie Load (~1 Ton)';
+                    sizeSelect.options[1].text = 'Double Bakkie / Trailer (~2 Tons)';
+                    sizeSelect.options[2].text = '4-Ton Tipper Truck Load';
+                    sizeSelect.options[3].text = 'Bulk Site Clearing (>4 Tons)';
+                } else {
+                    sizeLabel.textContent = '2. Property Size';
+                    sizeSelect.options[0].text = 'Small Yard (~100–300 m²)';
+                    sizeSelect.options[1].text = 'Medium Yard (~300–700 m²)';
+                    sizeSelect.options[2].text = 'Large Yard (~700–1500 m²)';
+                    sizeSelect.options[3].text = 'Commercial Site (>1500 m²)';
+                }
             }
-        }
 
-        // ==========================================
-        // CLIENT-SIDE SITE PHOTO COMPRESSION (<canvas>)
-        // ==========================================
-        function formatBytes(bytes) {
-            if (bytes < 1024) return bytes + ' B';
-            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
-        }
+            function calculateEstimate() {
+                const serviceEl = document.getElementById('estService');
+                const sizeEl = document.getElementById('estSize');
+                const freqEl = document.getElementById('estFreq');
+                if (!serviceEl || !sizeEl || !freqEl) return;
 
-        function handleFileAttachment(event) {
-            const file = event.target.files && event.target.files[0];
-            if (!file) return;
+                const service = serviceEl.value;
+                const size = sizeEl.value;
+                const freq = freqEl.value;
 
-            const previewBox = document.getElementById('attachmentPreview');
-            const thumb = document.getElementById('attachmentThumb');
-            const pdfIcon = document.getElementById('attachmentPdfIcon');
-            const nameEl = document.getElementById('attachmentName');
-            const metaEl = document.getElementById('attachmentMeta');
+                updateEstimatorSizeLabels(service);
 
-            if (file.type === 'application/pdf') {
-                if (file.size > 5 * 1024 * 1024) {
-                    showStatus('PDF attachment must be under 5 MB.', 'error');
+                let base = 350;
+                let note = '*Includes lawn cutting, edging, and trimmings cleanup.';
+
+                if (service === 'garden') {
+                    base = 550;
+                    note = '*Includes lawn care, hedge trimming, weeding, and garden refuse removal.';
+                } else if (service === 'cleaning') {
+                    base = 750;
+                    note = '*Includes deep sweeping, mopping, sanitation, and surface wipe-down.';
+                } else if (service === 'repairs') {
+                    base = 600;
+                    note = '*Estimated labor callout for general handyman fixes (materials quoted on inspection).';
+                } else if (service === 'rubble') {
+                    base = 650;
+                    note = '*Includes loading, hauling, and licensed municipal rubble disposal fees.';
+                }
+
+                let sizeMult = 1.0;
+                if (size === 'medium') sizeMult = 1.3;
+                else if (size === 'large') sizeMult = 1.9;
+                else if (size === 'commercial') sizeMult = 3.0;
+
+                const disc = freq === 'biweekly' ? 0.90 : freq === 'monthly' ? 0.85 : 1.0;
+                const baseTotal = Math.round(base * sizeMult * disc);
+                const combinedTotal = baseTotal + estimatorState.calloutFee;
+
+                estimatorState.basePrice = baseTotal;
+                estimatorState.totalPrice = combinedTotal;
+
+                document.getElementById('estBaseBreakdown').textContent = 'R ' + baseTotal;
+                document.getElementById('estPriceDisplay').textContent = 'R ' + combinedTotal;
+                document.getElementById('estPriceNote').textContent = note;
+
+                if (estimatorState.calloutVerified) {
+                    document.getElementById('estCalloutBreakdown').textContent =
+                        estimatorState.calloutFee === 0
+                            ? 'Free (' + estimatorState.distanceText + ')'
+                            : 'R ' + estimatorState.calloutFee + ' (' + estimatorState.distanceText + ')';
+                } else {
+                    document.getElementById('estCalloutBreakdown').textContent = 'R 0 (≤ 25 km)';
+                }
+            }
+
+            function handleCheckSuburbCallout() {
+                const suburbInput = document.getElementById('estSuburb');
+                const statusEl = document.getElementById('estCalloutStatus');
+                const btn = document.getElementById('checkCalloutBtn');
+                const btnText = document.getElementById('checkCalloutText');
+                const spinner = document.getElementById('checkCalloutSpinner');
+
+                const suburb = suburbInput ? suburbInput.value.trim() : '';
+                if (!suburb) {
+                    estimatorState.calloutFee = 0;
+                    estimatorState.suburb = '';
+                    estimatorState.distanceText = '';
+                    estimatorState.calloutVerified = false;
+                    statusEl.className = 'text-[11px] text-slate-500 mt-1.5';
+                    statusEl.textContent = 'Free callout within 25 km of our Soweto base.';
+                    calculateEstimate();
+                    return;
+                }
+
+                btn.disabled = true;
+                btnText.textContent = 'Checking';
+                spinner.classList.remove('hidden');
+
+                const onResult = function (res) {
+                    btn.disabled = false;
+                    btnText.textContent = 'Check';
+                    spinner.classList.add('hidden');
+
+                    if (res && res.status === 'OK') {
+                        estimatorState.calloutFee = Number(res.fee) || 0;
+                        estimatorState.suburb = suburb;
+                        estimatorState.distanceText = res.distanceText || '';
+                        estimatorState.calloutVerified = true;
+                        statusEl.className = 'text-[11px] text-mcw-green font-semibold mt-1.5';
+                        statusEl.textContent = res.distanceText + ' from Soweto base — ' + res.feeMsg;
+                    } else {
+                        estimatorState.calloutFee = 0;
+                        estimatorState.suburb = suburb;
+                        estimatorState.distanceText = '';
+                        estimatorState.calloutVerified = false;
+                        statusEl.className = 'text-[11px] text-amber-700 font-medium mt-1.5';
+                        statusEl.textContent = (res && res.feeMsg) ? res.feeMsg : 'Suburb will be verified on formal quote.';
+                    }
+                    calculateEstimate();
+                };
+
+                const onError = function () {
+                    btn.disabled = false;
+                    btnText.textContent = 'Check';
+                    spinner.classList.add('hidden');
+                    statusEl.className = 'text-[11px] text-amber-700 mt-1.5';
+                    statusEl.textContent = 'Live distance lookup unavailable; callout confirmed on quote request.';
+                };
+
+                if (typeof google !== 'undefined' && google.script && google.script.run) {
+                    google.script.run
+                        .withSuccessHandler(onResult)
+                        .withFailureHandler(onError)
+                        .checkSuburbDistance(suburb);
+                } else {
+                    fetch(FALLBACK_WEB_APP_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({ action: 'calculateDistance', location: suburb })
+                    })
+                    .then(function (r) { return r.json(); })
+                    .then(onResult)
+                    .catch(onError);
+                }
+            }
+
+            function applyEstimateToForm() {
+                const estServiceEl = document.getElementById('estService');
+                const estSizeEl = document.getElementById('estSize');
+                const estFreqEl = document.getElementById('estFreq');
+                const estSuburbEl = document.getElementById('estSuburb');
+
+                const estService = estServiceEl.value;
+                const estSizeText = estSizeEl.options[estSizeEl.selectedIndex].text;
+                const estFreqText = estFreqEl.options[estFreqEl.selectedIndex].text;
+                const suburbVal = estSuburbEl ? estSuburbEl.value.trim() : '';
+
+                const serviceMap = {
+                    grass: 'Garden & Lawn Care',
+                    garden: 'Garden & Lawn Care',
+                    cleaning: 'Facility Cleaning',
+                    repairs: 'Property Maintenance',
+                    rubble: 'Site & Rubble Support'
+                };
+
+                switchFormType('quote');
+
+                const serviceSelect = document.getElementById('serviceSelect');
+                if (serviceSelect && serviceMap[estService]) {
+                    serviceSelect.value = serviceMap[estService];
+                }
+
+                const locationInput = document.getElementById('location');
+                if (locationInput && suburbVal) {
+                    locationInput.value = suburbVal;
+                }
+
+                const calloutNote = estimatorState.calloutVerified
+                    ? ' + R ' + estimatorState.calloutFee + ' callout (' + estimatorState.distanceText + ')'
+                    : '';
+
+                const details = document.getElementById('details');
+                if (details) {
+                    const summaryLine = 'Online Estimate: R ' + estimatorState.totalPrice +
+                        ' [Service: R ' + estimatorState.basePrice + calloutNote + '] (' +
+                        estSizeText + ' | ' + estFreqText + ')';
+                    details.value = details.value
+                        ? summaryLine + '\n' + details.value
+                        : summaryLine + '\nAdditional project notes: ';
+                }
+
+                switchTab('contact');
+            }
+
+            function sendEstimateViaWhatsApp() {
+                const estServiceEl = document.getElementById('estService');
+                const estSizeEl = document.getElementById('estSize');
+                const estFreqEl = document.getElementById('estFreq');
+                const estSuburbEl = document.getElementById('estSuburb');
+
+                const serviceText = estServiceEl.options[estServiceEl.selectedIndex].text;
+                const sizeText = estSizeEl.options[estSizeEl.selectedIndex].text;
+                const freqText = estFreqEl.options[estFreqEl.selectedIndex].text;
+                const suburbVal = estSuburbEl ? estSuburbEl.value.trim() : '';
+
+                let locationLine = '';
+                if (suburbVal) {
+                    locationLine = '\n• Suburb: ' + suburbVal +
+                        (estimatorState.calloutVerified ? ' (' + estimatorState.distanceText + ', Callout: R ' + estimatorState.calloutFee + ')' : '');
+                }
+
+                const msg = 'Hi MCW, I used your online price estimator:\n• Service: ' + serviceText +
+                    '\n• Scope / Size: ' + sizeText +
+                    '\n• Frequency: ' + freqText +
+                    locationLine +
+                    '\n• Estimated Starting Total: R ' + estimatorState.totalPrice +
+                    '\n\nI would like to book or confirm a quote.';
+                window.open('https://wa.me/27698777757?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+            }
+
+            function switchFormType(type) {
+                const unifiedForm = document.getElementById('unifiedForm');
+                const trackQuotePanel = document.getElementById('trackQuotePanel');
+                const statusAlert = document.getElementById('statusAlert');
+                const toggleQuoteBtn = document.getElementById('toggleQuoteBtn');
+                const toggleFaqBtn = document.getElementById('toggleFaqBtn');
+                const toggleTrackBtn = document.getElementById('toggleTrackBtn');
+
+                const activeTabClass = 'text-xs font-bold px-3.5 py-2 text-mcw-green border-b-2 border-mcw-green transition-colors';
+                const inactiveTabClass = 'text-xs font-bold px-3.5 py-2 text-slate-500 transition-colors';
+
+                if (statusAlert) statusAlert.classList.add('hidden');
+
+                if (type === 'track') {
+                    unifiedForm.classList.add('hidden');
+                    trackQuotePanel.classList.remove('hidden');
+                    toggleQuoteBtn.className = inactiveTabClass;
+                    toggleFaqBtn.className = inactiveTabClass;
+                    toggleTrackBtn.className = activeTabClass + ' flex items-center gap-1.5';
+                    return;
+                }
+
+                trackQuotePanel.classList.add('hidden');
+                unifiedForm.classList.remove('hidden');
+                document.getElementById('submissionType').value = type;
+
+                const quoteFields = document.getElementById('quoteFields');
+                const faqTopicField = document.getElementById('faqTopicField');
+                const locationWrapper = document.getElementById('locationWrapper');
+                const locationInput = document.getElementById('location');
+                const detailsLabel = document.getElementById('detailsLabel');
+                const details = document.getElementById('details');
+
+                toggleTrackBtn.className = inactiveTabClass + ' flex items-center gap-1.5';
+
+                if (type === 'quote') {
+                    quoteFields.classList.remove('hidden');
+                    faqTopicField.classList.add('hidden');
+                    locationWrapper.classList.remove('hidden');
+                    locationInput.required = true;
+                    toggleQuoteBtn.className = activeTabClass;
+                    toggleFaqBtn.className = inactiveTabClass;
+                    document.getElementById('submitBtnText').textContent = 'Submit Quote Request';
+                    detailsLabel.textContent = 'Project Details / Message *';
+                    details.placeholder = 'Describe the work needed, approximate yard/site size, or preferred dates...';
+                } else {
+                    quoteFields.classList.add('hidden');
+                    faqTopicField.classList.remove('hidden');
+                    locationWrapper.classList.add('hidden');
+                    locationInput.required = false;
+                    toggleFaqBtn.className = activeTabClass;
+                    toggleQuoteBtn.className = inactiveTabClass;
+                    document.getElementById('submitBtnText').textContent = 'Submit Inquiry';
+                    detailsLabel.textContent = 'Your Question *';
+                    details.placeholder = 'Ask your question here...';
+                }
+            }
+
+            function formatBytes(bytes) {
+                if (bytes < 1024) return bytes + ' B';
+                if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+                return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+            }
+
+            function handleFileAttachment(event) {
+                const file = event.target.files && event.target.files[0];
+                if (!file) return;
+
+                const previewBox = document.getElementById('attachmentPreview');
+                const thumb = document.getElementById('attachmentThumb');
+                const pdfIcon = document.getElementById('attachmentPdfIcon');
+                const nameEl = document.getElementById('attachmentName');
+                const metaEl = document.getElementById('attachmentMeta');
+
+                if (file.type === 'application/pdf') {
+                    if (file.size > 2 * 1024 * 1024) {
+                        showStatus('PDF attachment must be under 2 MB.', 'error');
+                        event.target.value = '';
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        compressedFilePayload = {
+                            name: file.name,
+                            data: e.target.result
+                        };
+                        thumb.classList.add('hidden');
+                        pdfIcon.classList.remove('hidden');
+                        nameEl.textContent = file.name;
+                        metaEl.textContent = 'PDF Ready (' + formatBytes(file.size) + ')';
+                        previewBox.classList.remove('hidden');
+                    };
+                    reader.readAsDataURL(file);
+                    return;
+                }
+
+                if (!file.type.startsWith('image/')) {
+                    showStatus('Please attach an image (JPG, PNG, WEBP) or PDF file.', 'error');
                     event.target.value = '';
                     return;
                 }
+
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    compressedFilePayload = {
-                        name: file.name,
-                        data: e.target.result
+                    const img = new Image();
+                    img.onload = function () {
+                        const MAX_DIMENSION = 1280;
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
+                            if (width > height) {
+                                height = Math.round((height * MAX_DIMENSION) / width);
+                                width = MAX_DIMENSION;
+                            } else {
+                                width = Math.round((width * MAX_DIMENSION) / height);
+                                height = MAX_DIMENSION;
+                            }
+                        }
+
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.75);
+                        const approxCompressedBytes = Math.round((compressedDataUrl.length * 3) / 4);
+                        const safeBaseName = file.name.replace(/\.[^/.]+$/, '') + '.jpg';
+
+                        compressedFilePayload = {
+                            name: safeBaseName,
+                            data: compressedDataUrl
+                        };
+
+                        pdfIcon.classList.add('hidden');
+                        thumb.src = compressedDataUrl;
+                        thumb.classList.remove('hidden');
+                        nameEl.textContent = safeBaseName;
+                        metaEl.textContent = 'Compressed: ' + formatBytes(file.size) + ' → ' + formatBytes(approxCompressedBytes);
+                        previewBox.classList.remove('hidden');
                     };
-                    thumb.classList.add('hidden');
-                    pdfIcon.classList.remove('hidden');
-                    nameEl.textContent = file.name;
-                    metaEl.textContent = `PDF Ready (${formatBytes(file.size)})`;
-                    previewBox.classList.remove('hidden');
+                    img.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
-                return;
             }
 
-            if (!file.type.startsWith('image/')) {
-                showStatus('Please attach an image (JPG, PNG) or PDF file.', 'error');
-                event.target.value = '';
-                return;
+            function clearAttachment() {
+                compressedFilePayload = null;
+                const fileInput = document.getElementById('siteAttachment');
+                if (fileInput) fileInput.value = '';
+                document.getElementById('attachmentPreview').classList.add('hidden');
+                document.getElementById('attachmentThumb').src = '';
             }
 
-            // Compress image using HTML5 Canvas (max 1280px, 75% JPEG quality)
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const img = new Image();
-                img.onload = function () {
-                    const MAX_DIMENSION = 1280;
-                    let width = img.width;
-                    let height = img.height;
+            function readFormPayload() {
+                const submissionType = document.getElementById('submissionType').value;
+                const detailsValue = document.getElementById('details').value.trim();
+                const faqTopic = document.getElementById('faqTopicSelect').value;
 
-                    if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
-                        if (width > height) {
-                            height = Math.round((height * MAX_DIMENSION) / width);
-                            width = MAX_DIMENSION;
-                        } else {
-                            width = Math.round((width * MAX_DIMENSION) / height);
-                            height = MAX_DIMENSION;
-                        }
-                    }
-
-                    const canvas = document.createElement('canvas');
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.75);
-                    const approxCompressedBytes = Math.round((compressedDataUrl.length * 3) / 4);
-                    const safeBaseName = file.name.replace(/\.[^/.]+$/, '') + '.jpg';
-
-                    compressedFilePayload = {
-                        name: safeBaseName,
-                        data: compressedDataUrl
-                    };
-
-                    pdfIcon.classList.add('hidden');
-                    thumb.src = compressedDataUrl;
-                    thumb.classList.remove('hidden');
-                    nameEl.textContent = safeBaseName;
-                    metaEl.textContent = `Compressed: ${formatBytes(file.size)} → ${formatBytes(approxCompressedBytes)}`;
-                    previewBox.classList.remove('hidden');
+                return {
+                    type: submissionType,
+                    website_hp: document.getElementById('website_hp').value,
+                    fullName: document.getElementById('fullName').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    contactInfo: document.getElementById('contactInfo').value.trim(),
+                    location: document.getElementById('location').value.trim(),
+                    service: document.getElementById('serviceSelect').value,
+                    preferredDate: submissionType === 'quote' ? document.getElementById('preferredDate').value : '',
+                    urgency: submissionType === 'quote' ? document.getElementById('urgencySelect').value : 'Standard / Flexible',
+                    details: detailsValue,
+                    question: detailsValue,
+                    topic: submissionType === 'faq' ? faqTopic : detailsValue,
+                    file: submissionType === 'quote' ? compressedFilePayload : null
                 };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function clearAttachment() {
-            compressedFilePayload = null;
-            const fileInput = document.getElementById('siteAttachment');
-            if (fileInput) fileInput.value = '';
-            document.getElementById('attachmentPreview').classList.add('hidden');
-            document.getElementById('attachmentThumb').src = '';
-        }
-
-        function readFormPayload() {
-            const submissionType = document.getElementById('submissionType').value;
-            const detailsValue = document.getElementById('details').value.trim();
-            const faqTopic = document.getElementById('faqTopicSelect').value;
-
-            return {
-                type: submissionType,
-                website_hp: document.getElementById('website_hp').value,
-                fullName: document.getElementById('fullName').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                contactInfo: document.getElementById('contactInfo').value.trim(),
-                location: document.getElementById('location').value.trim(),
-                service: document.getElementById('serviceSelect').value,
-                details: detailsValue,
-                question: detailsValue,
-                topic: submissionType === 'faq' ? faqTopic : detailsValue,
-                file: submissionType === 'quote' ? compressedFilePayload : null
-            };
-        }
-
-        function showStatus(message, variant) {
-            const alert = document.getElementById('statusAlert');
-            alert.classList.remove('hidden', 'bg-mcw-greenlight', 'border-mcw-green', 'bg-red-50', 'border-red-200', 'text-red-700');
-            if (variant === 'error') {
-                alert.classList.add('bg-red-50', 'border-red-200', 'text-red-700');
-            } else {
-                alert.classList.add('bg-mcw-greenlight', 'border-mcw-green');
-            }
-            alert.textContent = message;
-            alert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        function handleFormSubmit(e) {
-            e.preventDefault();
-            const submitBtn = document.getElementById('submitBtn');
-            const spinner = document.getElementById('submitSpinner');
-            const emailVal = document.getElementById('email').value.trim();
-            const contactVal = document.getElementById('contactInfo').value.trim();
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-            if (!emailPattern.test(emailVal)) {
-                showStatus('Please enter a valid email address so we can send your confirmation.', 'error');
-                return;
             }
 
-            if (!contactVal) {
-                showStatus('Please enter a phone or WhatsApp number.', 'error');
-                return;
+            function showStatus(message, variant) {
+                const alert = document.getElementById('statusAlert');
+                alert.classList.remove('hidden', 'bg-mcw-greenlight', 'border-mcw-green', 'bg-red-50', 'border-red-200', 'text-red-700');
+                if (variant === 'error') {
+                    alert.classList.add('bg-red-50', 'border-red-200', 'text-red-700');
+                } else {
+                    alert.classList.add('bg-mcw-greenlight', 'border-mcw-green');
+                }
+                alert.textContent = message;
+                alert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
 
-            submitBtn.disabled = true;
-            spinner.classList.remove('hidden');
+            function handleFormSubmit(e) {
+                e.preventDefault();
+                const submitBtn = document.getElementById('submitBtn');
+                const spinner = document.getElementById('submitSpinner');
+                const emailVal = document.getElementById('email').value.trim();
+                const contactVal = document.getElementById('contactInfo').value.trim();
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            const payload = readFormPayload();
+                if (!emailPattern.test(emailVal)) {
+                    showStatus('Please enter a valid email address so we can send your confirmation.', 'error');
+                    return;
+                }
 
-            if (typeof google !== 'undefined' && google.script && google.script.run) {
-                google.script.run
-                    .withSuccessHandler(res => {
+                if (!contactVal) {
+                    showStatus('Please enter a phone or WhatsApp number.', 'error');
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                spinner.classList.remove('hidden');
+
+                const payload = readFormPayload();
+
+                if (typeof google !== 'undefined' && google.script && google.script.run) {
+                    google.script.run
+                        .withSuccessHandler(function (res) {
+                            submitBtn.disabled = false;
+                            spinner.classList.add('hidden');
+                            const isError = res && res.status === 'error';
+                            showStatus(res && res.message ? res.message : 'Submitted successfully!', isError ? 'error' : 'success');
+                            if (!isError) {
+                                document.getElementById('unifiedForm').reset();
+                                clearAttachment();
+                                switchFormType('quote');
+                            }
+                        })
+                        .withFailureHandler(function () {
+                            submitBtn.disabled = false;
+                            spinner.classList.add('hidden');
+                            showStatus('Error submitting request. Please try again or WhatsApp us.', 'error');
+                        })
+                        .processFormSubmission(payload);
+                } else {
+                    fetch(FALLBACK_WEB_APP_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify(payload)
+                    })
+                    .then(function (res) {
+                        return res.json().catch(function () {
+                            return { status: 'error', message: 'Submission failed.' };
+                        });
+                    })
+                    .then(function (data) {
                         submitBtn.disabled = false;
                         spinner.classList.add('hidden');
-                        const isError = res && res.status === 'error';
-                        showStatus(res && res.message ? res.message : 'Submitted successfully!', isError ? 'error' : 'success');
+                        const isError = data.status === 'error';
+                        showStatus(data.message || 'Submitted successfully!', isError ? 'error' : 'success');
                         if (!isError) {
                             document.getElementById('unifiedForm').reset();
                             clearAttachment();
                             switchFormType('quote');
                         }
                     })
-                    .withFailureHandler(() => {
+                    .catch(function () {
                         submitBtn.disabled = false;
                         spinner.classList.add('hidden');
                         showStatus('Error submitting request. Please try again or WhatsApp us.', 'error');
-                    })
-                    .processFormSubmission(payload);
-            } else {
-                fetch('/api/submit', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                })
-                .then(async res => {
-                    const data = await res.json().catch(() => ({ status: 'error', message: 'Submission failed.' }));
-                    submitBtn.disabled = false;
-                    spinner.classList.add('hidden');
-                    const isError = data.status === 'error';
-                    showStatus(data.message || 'Submitted successfully!', isError ? 'error' : 'success');
-                    if (!isError) {
-                        document.getElementById('unifiedForm').reset();
-                        clearAttachment();
-                        switchFormType('quote');
-                    }
-                })
-                .catch(() => {
-                    submitBtn.disabled = false;
-                    spinner.classList.add('hidden');
-                    showStatus('Error submitting request. Please try again or WhatsApp us.', 'error');
-                });
+                    });
+                }
             }
-        }
+
+            function renderQuoteStatusResult(res) {
+                const resultCard = document.getElementById('trackResultCard');
+                const statusAlert = document.getElementById('statusAlert');
+
+                if (!res || res.status !== 'success' || !res.quote) {
+                    resultCard.classList.add('hidden');
+                    showStatus((res && res.message) ? res.message : 'No matching quote found.', 'error');
+                    return;
+                }
+
+                statusAlert.classList.add('hidden');
+                const q = res.quote;
+
+                document.getElementById('resRefId').textContent = q.refId;
+                document.getElementById('resClientName').textContent = q.firstName;
+                document.getElementById('resSubmittedDate').textContent = q.submittedDate || 'Recorded';
+                document.getElementById('resService').textContent = q.service;
+                document.getElementById('resLocation').textContent = q.location;
+                document.getElementById('resPreferredDate').textContent = q.preferredDate;
+                document.getElementById('resUrgency').textContent = q.urgency;
+                document.getElementById('resCalloutFee').textContent = q.calloutFee;
+
+                const badge = document.getElementById('resStatusBadge');
+                badge.textContent = q.quoteStatus;
+                const st = q.quoteStatus.toLowerCase();
+                if (st === 'confirmed' || st === 'completed') {
+                    badge.className = 'px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-mcw-greenlight text-mcw-green border border-mcw-green/30';
+                } else if (st === 'site visit scheduled') {
+                    badge.className = 'px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-amber-50 text-amber-800 border border-amber-300';
+                } else {
+                    badge.className = 'px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-slate-200 text-slate-800 border border-slate-300';
+                }
+
+                const waMsg = 'Hi MCW, I am following up on my quote reference ' + q.refId + ' (' + q.service + ').';
+                document.getElementById('resWhatsappLink').href = 'https://wa.me/27698777757?text=' + encodeURIComponent(waMsg);
+
+                resultCard.classList.remove('hidden');
+            }
+
+            function handleTrackQuoteSubmit(e) {
+                e.preventDefault();
+                const refId = document.getElementById('trackRefId').value.trim().toUpperCase();
+                const verification = document.getElementById('trackVerification').value.trim();
+                const trackBtn = document.getElementById('trackBtn');
+                const trackBtnText = document.getElementById('trackBtnText');
+                const trackSpinner = document.getElementById('trackSpinner');
+
+                if (!refId || !verification) {
+                    showStatus('Please enter both your Reference ID and email/phone number.', 'error');
+                    return;
+                }
+
+                trackBtn.disabled = true;
+                trackBtnText.textContent = 'Searching...';
+                trackSpinner.classList.remove('hidden');
+
+                const onDone = function (res) {
+                    trackBtn.disabled = false;
+                    trackBtnText.textContent = 'Check Quote Status';
+                    trackSpinner.classList.add('hidden');
+                    renderQuoteStatusResult(res);
+                };
+
+                const onFail = function () {
+                    trackBtn.disabled = false;
+                    trackBtnText.textContent = 'Check Quote Status';
+                    trackSpinner.classList.add('hidden');
+                    showStatus('Error checking status. Please try again or WhatsApp us.', 'error');
+                };
+
+                if (typeof google !== 'undefined' && google.script && google.script.run) {
+                    google.script.run
+                        .withSuccessHandler(onDone)
+                        .withFailureHandler(onFail)
+                        .checkQuoteStatus(refId, verification);
+                } else {
+                    fetch(FALLBACK_WEB_APP_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({
+                            action: 'checkQuoteStatus',
+                            refId: refId,
+                            verification: verification
+                        })
+                    })
+                    .then(function (r) { return r.json(); })
+                    .then(onDone)
+                    .catch(onFail);
+                }
+            }
+
+            function setMinPreferredDate() {
+                const dateInput = document.getElementById('preferredDate');
+                if (!dateInput) return;
+                const now = new Date();
+                const yyyy = now.getFullYear();
+                const mm = String(now.getMonth() + 1).padStart(2, '0');
+                const dd = String(now.getDate()).padStart(2, '0');
+                dateInput.min = yyyy + '-' + mm + '-' + dd;
+            }
+
+            function bindAllInteractions() {
+                setMinPreferredDate();
+
+                // 1. Navigation & Tab Switchers
+                document.querySelectorAll('[data-tab]').forEach(function (el) {
+                    el.addEventListener('click', function () {
+                        switchTab(el.getAttribute('data-tab'));
+                    });
+                });
+
+                // 2. Service Cards
+                document.querySelectorAll('[data-book-service]').forEach(function (card) {
+                    card.addEventListener('click', function () {
+                        selectServiceAndBook(card.getAttribute('data-book-service'));
+                    });
+                    card.addEventListener('keydown', function (e) {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            selectServiceAndBook(card.getAttribute('data-book-service'));
+                        }
+                    });
+                });
+
+                // 3. Price Estimator Controls & Live Suburb Callout Check
+                ['estService', 'estSize', 'estFreq'].forEach(function (id) {
+                    const selectEl = document.getElementById(id);
+                    if (selectEl) {
+                        selectEl.addEventListener('change', calculateEstimate);
+                    }
+                });
+
+                const checkCalloutBtn = document.getElementById('checkCalloutBtn');
+                if (checkCalloutBtn) {
+                    checkCalloutBtn.addEventListener('click', handleCheckSuburbCallout);
+                }
+
+                const estSuburb = document.getElementById('estSuburb');
+                if (estSuburb) {
+                    estSuburb.addEventListener('keydown', function (e) {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            handleCheckSuburbCallout();
+                        }
+                    });
+                }
+
+                const applyEstBtn = document.getElementById('applyEstimateBtn');
+                if (applyEstBtn) applyEstBtn.addEventListener('click', applyEstimateToForm);
+
+                const waEstBtn = document.getElementById('whatsappEstimateBtn');
+                if (waEstBtn) waEstBtn.addEventListener('click', sendEstimateViaWhatsApp);
+
+                // 4. Form Mode Toggles, File Input & Submission
+                const toggleQuoteBtn = document.getElementById('toggleQuoteBtn');
+                if (toggleQuoteBtn) {
+                    toggleQuoteBtn.addEventListener('click', function () {
+                        switchFormType('quote');
+                    });
+                }
+
+                const toggleFaqBtn = document.getElementById('toggleFaqBtn');
+                if (toggleFaqBtn) {
+                    toggleFaqBtn.addEventListener('click', function () {
+                        switchFormType('faq');
+                    });
+                }
+
+                const toggleTrackBtn = document.getElementById('toggleTrackBtn');
+                if (toggleTrackBtn) {
+                    toggleTrackBtn.addEventListener('click', function () {
+                        switchFormType('track');
+                    });
+                }
+
+                const siteAttachment = document.getElementById('siteAttachment');
+                if (siteAttachment) siteAttachment.addEventListener('change', handleFileAttachment);
+
+                const clearAttachmentBtn = document.getElementById('clearAttachmentBtn');
+                if (clearAttachmentBtn) clearAttachmentBtn.addEventListener('click', clearAttachment);
+
+                const unifiedForm = document.getElementById('unifiedForm');
+                if (unifiedForm) unifiedForm.addEventListener('submit', handleFormSubmit);
+
+                const trackQuoteForm = document.getElementById('trackQuoteForm');
+                if (trackQuoteForm) trackQuoteForm.addEventListener('submit', handleTrackQuoteSubmit);
+
+                calculateEstimate();
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', bindAllInteractions);
+            } else {
+                bindAllInteractions();
+            }
+        })();
     </script>
 </body>
-</html>>
+</html>
